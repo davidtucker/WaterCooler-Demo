@@ -1,0 +1,6 @@
+[submodule "Third Party/MBProgressHUD"]
+	path = Third Party/MBProgressHUD
+	url = https://github.com/jdg/MBProgressHUD
+[submodule "Third Party/SlackTextViewController"]
+	path = Third Party/SlackTextViewController
+	url = https://github.com/slackhq/SlackTextViewController.git
