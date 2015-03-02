@@ -38,7 +38,7 @@ function onPostSave(request, response, modules) {
     // specified ID and we have updated the reference
     var lastMessageRef = {
       _type: "KinveyRef",
-      _id: threadId,
+      _id: messageId,
       _collection: "Messages"
     };
     
