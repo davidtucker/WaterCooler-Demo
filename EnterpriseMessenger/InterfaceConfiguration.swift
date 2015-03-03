@@ -9,8 +9,29 @@
 import Foundation
 import UIKit
 
+enum DateFormat {
+    case Short
+    case Long
+}
+
 class InterfaceConfiguration {
     
+    class var shortDateFormatter:NSDateFormatter {
+        let formatter:NSDateFormatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        formatter.doesRelativeDateFormatting = true
+        formatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        return formatter
+    }
+    
+    class var longDateFormatter:NSDateFormatter {
+        let formatter:NSDateFormatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.LongStyle
+        formatter.doesRelativeDateFormatting = true
+        formatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        return formatter
+    }
+
     class var keyColor:UIColor {
         return UIColor(red: 0.000, green: 0.847, blue: 0.522, alpha: 1.0)
     }
@@ -32,7 +53,7 @@ class InterfaceConfiguration {
     }
     
     class var recipientBubbleColor:UIColor {
-        return UIColor(red: 0.788, green: 0.949, blue: 0.894, alpha: 1)
+        return UIColor(red: 0.788, green: 0.949, blue: 0.894, alpha: 0.4)
     }
     
     class func configure() -> Void {
@@ -56,7 +77,14 @@ class InterfaceConfiguration {
         UITabBar.appearance().tintColor = keyColor
     }
     
-    
+    class func formattedDate(format:DateFormat,date:NSDate) -> String {
+        switch format {
+            case .Short:
+                return shortDateFormatter.stringFromDate(date)
+            case .Long:
+                return longDateFormatter.stringFromDate(date)
+        }
+    }
     
 }
 

@@ -85,14 +85,6 @@ class MessageThreadTableViewCell : UITableViewCell {
         return appDelegate.dataManager
     }()
     
-    lazy var dateFormatter:NSDateFormatter = {
-        let formatter:NSDateFormatter = NSDateFormatter()
-        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        formatter.doesRelativeDateFormatting = true
-        formatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        return formatter
-    }()
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSubviews()
@@ -138,8 +130,6 @@ class MessageThreadTableViewCell : UITableViewCell {
     }
     
     override func prepareForReuse() {
-        // Clear out all state from previous user
-        //profileImage.image = nil
         recipientLabel.text = nil
         contentLabel.text = nil
         timeLabel.text = nil
@@ -147,7 +137,7 @@ class MessageThreadTableViewCell : UITableViewCell {
     
     func updateViewForThread(thread:MessageThread) {
         if(thread.lastMessage != nil) {
-            self.timeLabel.text = dateFormatter.stringFromDate(thread.lastMessage.getDateForSort())
+            self.timeLabel.text = InterfaceConfiguration.formattedDate(DateFormat.Short, date: thread.lastMessage.getDateForSort())
             self.contentLabel.text = thread.lastMessage.messageText
         } else {
             self.timeLabel.text = ""
@@ -156,21 +146,17 @@ class MessageThreadTableViewCell : UITableViewCell {
         
         self.setNeedsLayout()
         
-        let user = dataManager.fetchUserFromThread(thread)
-        self.recipientLabel.text = user.givenName + " " + user.surname
-        
-        
-        let pictureId = user.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String!
-        if(pictureId == nil) {
-            return
-        }
-        
-        self.profileImage.image = nil
-        if let userProfileImage = user.getProfileImage() {
-            profileImage.image = userProfileImage
-        } else {
-            user.populateProfileImage { (image) -> () in
-                self.profileImage.image = image
+        if let user = dataManager.fetchUserFromThread(thread) {
+            self.recipientLabel.text = user.givenName + " " + user.surname
+            if let pictureId = user.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String! {
+                self.profileImage.image = nil
+                if let userProfileImage = user.getProfileImage() {
+                    profileImage.image = userProfileImage
+                } else {
+                    user.populateProfileImage { (image) -> () in
+                        self.profileImage.image = image
+                    }
+                }
             }
         }
         

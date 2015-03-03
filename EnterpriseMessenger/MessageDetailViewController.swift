@@ -13,6 +13,8 @@ class MessageDetailViewController : SLKTextViewController {
     
     private var sortedMessages:[Message]!
     
+    private var sections:[MessageSection] = []
+    
     private var isLoadingInitialData:Bool = false
     
     lazy var dataManager:KinveyDataManager = {
@@ -37,10 +39,41 @@ class MessageDetailViewController : SLKTextViewController {
         self.sortedMessages = sorted(messages, {
             $0.getDateForSort().timeIntervalSinceNow < $1.getDateForSort().timeIntervalSinceNow
         }).reverse()
+        
+        updateSections()
+        
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.tableView.reloadData()
             self.scrollToBottom(false)
         })
+    }
+    
+    func updateSections() {
+        sections = []
+        var currentSection:MessageSection? = nil
+        var previousMessage:Message? = nil
+        for message in sortedMessages {
+            if shouldMessageBeInNewSection(message, previousMessage: previousMessage) {
+                currentSection = MessageSection()
+                sections.append(currentSection!)
+            }
+            currentSection!.addMessage(message)
+            previousMessage = message
+        }
+    }
+    
+    func shouldMessageBeInNewSection(message:Message, previousMessage:Message?) -> Bool {
+        if(previousMessage == nil) {
+            return true
+        }
+        
+        let timeA = message.getDateForSort().timeIntervalSince1970
+        let timeB = previousMessage!.getDateForSort().timeIntervalSince1970
+        if(abs(timeA - timeB) > WaterCoolerConstants.Message.MaximumSectionTimeVariance) {
+            return true
+        }
+        
+        return false
     }
     
     func messageReceived(notification:NSNotification) {
@@ -53,6 +86,11 @@ class MessageDetailViewController : SLKTextViewController {
                 addMessage(message)
             }
         }
+    }
+    
+    @IBAction func closePopup(sender:AnyObject) {
+        self.view.endEditing(true)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     private func scrollToBottom(isAnimated:Bool) {
@@ -71,6 +109,7 @@ class MessageDetailViewController : SLKTextViewController {
     override func viewDidLoad() {
         tableView.registerClass(MessageTableViewSenderCell.self, forCellReuseIdentifier: "SenderCell")
         tableView.registerClass(MessageTableViewRecipientCell.self, forCellReuseIdentifier: "RecipientCell")
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "Footer")
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 75.0
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
@@ -91,9 +130,8 @@ class MessageDetailViewController : SLKTextViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let type:Int = Int(arc4random_uniform(2))
-        
-        let message = sortedMessages[indexPath.row]
+        let section = sections[indexPath.section]
+        let message = section.messages[indexPath.row]
         if(message.senderId == KCSUser.activeUser().userId) {
             let cell = tableView.dequeueReusableCellWithIdentifier("SenderCell") as MessageTableViewSenderCell
             cell.messageContent = message.messageText
@@ -102,21 +140,38 @@ class MessageDetailViewController : SLKTextViewController {
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("RecipientCell") as MessageTableViewRecipientCell
+        cell.user = dataManager.fetchUserFromThread(thread)
         cell.messageContent = message.messageText
         cell.transform = tableView.transform
         return cell
     }
     
+    override func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        let firstMessage = sections[section].messages[0]
+        let header: UITableViewHeaderFooterView = view as UITableViewHeaderFooterView
+        header.textLabel.textColor = UIColor.lightGrayColor()
+        header.textLabel.text = InterfaceConfiguration.formattedDate(DateFormat.Long, date: firstMessage.getDateForSort())
+        header.textLabel.textAlignment = NSTextAlignment.Center
+        header.textLabel.font = InterfaceConfiguration.smallDetailFont
+        header.tintColor = UIColor.whiteColor()
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("Footer") as UITableViewHeaderFooterView
+        h.transform = tableView.transform
+        return h
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return thread.messages.count
-        if(sortedMessages == nil) {
-            return 0
-        }
-        return sortedMessages.count
+        return sections[section].messages.count
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
     
     override func didCommitTextEditing(sender: AnyObject!) {
@@ -143,16 +198,35 @@ class MessageDetailViewController : SLKTextViewController {
     }
     
     private func addMessage(message:Message) {
-        let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
         let rowAnimation = UITableViewRowAnimation.Bottom
         let scrollPosition = UITableViewScrollPosition.Bottom
+        let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
         
         tableView.beginUpdates()
+        
         sortedMessages.insert(message, atIndex: 0)
-        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation:rowAnimation)
+        updateSections()
+        
+        if(sortedMessages.count == 1 || shouldMessageBeInNewSection(message, previousMessage: sortedMessages[1])) {
+            let sectionSet = NSIndexSet(index: 0)
+            tableView.insertSections(sectionSet, withRowAnimation: UITableViewRowAnimation.Bottom)
+        } else {
+            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation:rowAnimation)
+        }
+        
         tableView.endUpdates()
         
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: scrollPosition, animated: true)
+    }
+    
+}
+
+private class MessageSection {
+    
+    var messages:[Message] = []
+    
+    func addMessage(message:Message) {
+        messages.append(message)
     }
     
 }

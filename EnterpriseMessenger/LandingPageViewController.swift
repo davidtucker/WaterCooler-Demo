@@ -11,7 +11,7 @@ import UIKit
 
 @objc(LandingPageViewController)
 
-class LandingPageViewController : UIViewController {
+class LandingPageViewController : UIViewController, UITextFieldDelegate {
     
     //MARK: -
     //MARK: Private State Variables
@@ -50,6 +50,10 @@ class LandingPageViewController : UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
+        if(KCSUser.activeUser() != nil) {
+            performSegueWithIdentifier(WaterCoolerConstants.Segue.Login, sender: self)
+            return
+        }
         self.logoTopConstraint.constant = 30.0
         self.view.setNeedsUpdateConstraints()
         self.signupButton.hidden = false
@@ -64,6 +68,18 @@ class LandingPageViewController : UIViewController {
                 self.loginButton.alpha = 1.0
             })
         }
+    }
+    
+    //MARK: -
+    //MARK: UITextFieldDelegate Implementation
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if(textField == loginEmailField) {
+            loginPasswordField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
     
     //MARK: -

@@ -14,7 +14,6 @@ class DirectoryBaseTableViewController : UITableViewController {
         super.viewDidLoad();
         tableView.rowHeight = 68.0
         tableView.registerClass(DirectoryTableViewCell.self, forCellReuseIdentifier: "DirectoryCell")
-        //loadUsers()
     }
     
 }

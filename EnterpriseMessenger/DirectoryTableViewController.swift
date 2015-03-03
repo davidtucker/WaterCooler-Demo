@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+enum DirectoryMode {
+    case NewConversation
+    case DirectoryDetail
+}
+
 protocol DirectoryTableViewControllerDelegate {
     
     func setMessageTarget(thread:MessageThread)
@@ -16,6 +21,10 @@ protocol DirectoryTableViewControllerDelegate {
 }
 
 class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+    
+    var directoryMode:DirectoryMode = DirectoryMode.DirectoryDetail
+    
+    var isReappearing:Bool = false
 
     lazy var dataManager:KinveyDataManager = {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -44,12 +53,34 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
         return resultsTableController
     }()
     
+    var selectedUser:KCSUser! = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad();
+        if(directoryMode == .DirectoryDetail) {
+            self.tableView.contentInset = UIEdgeInsetsMake(64.0, 0.0, 46.0, 0.0)
+            self.tableView.contentOffset = CGPointMake(0, -20.0)
+        }
+        searchController.searchBar.barTintColor = UIColor(red: 0.953, green: 0.953, blue: 0.953, alpha: 1.0)
+        searchController.searchBar.placeholder = "Search Users"
         self.navigationItem.setLeftBarButtonItem(cancelButton, animated: false)
         self.tableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
         dataManager.fetchUsers()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if(directoryMode == .DirectoryDetail && isReappearing) {
+            self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
+            self.tableView.contentOffset = CGPointMake(0, 44.0)
+        }
+        if let indexPath = tableView.indexPathForSelectedRow() {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        isReappearing = true
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,22 +108,39 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedRow = tableView.indexPathForSelectedRow()?.row
-        let selectedUser:KCSUser! = dataManager.sortedUsers[selectedRow!]
-
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = MBProgressHUDModeIndeterminate
-        hud.labelText = "Creating Conversation"
-        hud.dimBackground = true
         
-        dataManager.getThreadForUser(selectedUser, completion: { (thread) -> () in
-            hud.hide(true)
-            self.directoryDelegate!.setMessageTarget(thread)
-            self.dismissViewControllerAnimated(true) {
-                self.directoryDelegate = nil
+        let selectedRow = indexPath.row
+        
+        if(tableView == self.tableView) {
+            selectedUser = dataManager.sortedUsers[selectedRow]
+        } else {
+            selectedUser = resultsTableController.filteredUsers[selectedRow]
+        }
+        
+        if(directoryMode == DirectoryMode.NewConversation) {
+            let hud = presentIndeterminiteMessage("Loading Conversation")
+            dataManager.getThreadForUser(selectedUser, completion: { (thread) -> () in
+                hud.hide(true)
+                self.directoryDelegate!.setMessageTarget(thread)
+                self.dismissViewControllerAnimated(true) {
+                    self.directoryDelegate = nil
+                }
+            })
+        } else {
+            if(tableView != self.tableView) {
+                self.resultsTableController.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.performSegueWithIdentifier(WaterCoolerConstants.Segue.ShowDirectoryDetail, sender: self)
+                })
+            } else {
+                performSegueWithIdentifier(WaterCoolerConstants.Segue.ShowDirectoryDetail, sender: self)
             }
-        })
-        
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.searchController.searchBar.text = ""
+        let destinationViewController = segue.destinationViewController as DirectoryDetailViewController
+        destinationViewController.user = selectedUser
     }
     
     //MARK: -

@@ -64,12 +64,9 @@ class KinveyDataManager {
     //MARK: -
     //MARK: Data Stores from Kinvey
     
-    lazy var userStore:KCSCachedStore = {
+    lazy var userStore:KCSAppdataStore = {
         let userCollection:KCSCollection = KCSCollection.userCollection()
-        let options:[NSObject:AnyObject]! = [
-            KCSStoreKeyCachePolicy : NSNumber(unsignedInt: KCSCachePolicyLocalOnly.value)
-        ]
-        let store:KCSCachedStore = KCSCachedStore(collection: userCollection, options: options)
+        let store = KCSAppdataStore(collection: userCollection, options: nil)
         return store
     }()
     
@@ -107,6 +104,10 @@ class KinveyDataManager {
         }
     }
     
+    func invalidateImageCacheForUser(user:KCSUser) {
+        imageCache.removeValueForKey(user.userId)
+    }
+    
     //MARK: -
     //MARK: Private Fetching Methods
     
@@ -122,8 +123,13 @@ class KinveyDataManager {
     
     func fetchMessageThreads(completion: ([MessageThread]!, NSError!) -> ()) {
         threadStore.queryWithQuery(KCSQuery(), withCompletionBlock: { (results, error) -> Void in
-            self.threads = results as [MessageThread]
-            completion(self.threads, error)
+            if(error != nil) {
+                println("ERROR FETCHING THREADS")
+                completion(nil, error)
+            } else {
+                self.threads = results as [MessageThread]
+                completion(self.threads, error)
+            }
         }, withProgressBlock: nil, cachePolicy: KCSCachePolicyNone)
     }
     
@@ -135,9 +141,14 @@ class KinveyDataManager {
     
     func fetchUsers(completion: ([KCSUser]!, NSError!) -> ()) {
         userStore.queryWithQuery(KCSQuery(), withCompletionBlock: { (results, error) -> Void in
-            self.users = results as [KCSUser]
-            completion(results as [KCSUser]!, error)
-        }, withProgressBlock: nil, cachePolicy: KCSCachePolicyLocalFirst)
+            if(error == nil) {
+                self.users = results as [KCSUser]
+                completion(results as [KCSUser]!, nil)
+            } else {
+                completion(nil, error)
+            }
+            
+        }, withProgressBlock: nil)
     }
     
     //MARK: -

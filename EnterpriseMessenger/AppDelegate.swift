@@ -17,22 +17,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        // --------------------------------------------------------------------
+        // INCLUDE YOUR KINVEY CREDENTIALS HERE
+        // --------------------------------------------------------------------
+        
+        let appKey = ""
+        let appSecret = ""
+        
+        //---------------------------------------------------------------------
+        
         // Configure UI
         InterfaceConfiguration.configure();
         
-        // Load Kinvey Config
-        let kinveyConfig = loadKinveyConfig()
-        let isValid = isKinveyConfigValid(kinveyConfig)
-        
-        if !isValid {
-            //TODO: Let user know we cannot connect to Kinvey
-            return true
+        // Load the Kinvey Client
+        if appKey.isEmpty || appSecret.isEmpty {
+            setupKinveyClient()
+        } else {
+            setupKinveyClient(appKey, appSecret: appSecret)
         }
-                
-        // Setup the Kinvey Client Library
-        let appKey = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppKey) as String
-        let appSecret = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppSecret) as String
-        KCSClient.sharedClient().initializeKinveyServiceForAppKey(appKey, withAppSecret: appSecret, usingOptions: nil);
         
         // Setup the Data Manager
         self.dataManager = KinveyDataManager()
@@ -47,6 +49,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KCSPush.registerForPush()
         
         return true
+    }
+    
+    func setupKinveyClient(appKey:String,appSecret:String) {
+        KCSClient.sharedClient().initializeKinveyServiceForAppKey(appKey, withAppSecret: appSecret, usingOptions: nil);
+    }
+    
+    func setupKinveyClient() {
+        let kinveyConfig = loadKinveyConfig()
+        let isValid = isKinveyConfigValid(kinveyConfig)
+        
+        assert(isValid, "Be sure you have defined your Kinvey configuration in the AppDelegate - both the appKey and appSecret")
+        
+        // Setup the Kinvey Client Library
+        let appKey = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppKey) as String
+        let appSecret = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppSecret) as String
+        setupKinveyClient(appKey,appSecret: appSecret)
     }
     
     func loadKinveyConfig() -> NSDictionary! {

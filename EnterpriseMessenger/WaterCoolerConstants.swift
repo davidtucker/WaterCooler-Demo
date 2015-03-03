@@ -22,20 +22,37 @@ struct WaterCoolerConstants {
         static let Signup = "SignupSegue"
         static let Login = "LoggedInSegue"
         static let AboutDetail = "ShowAboutDetail"
+        static let Logout = "LogoutSegue"
+        static let ShowDirectoryDetail = "ShowDirectoryDetail"
+        static let ChangePassword = "PresentChangePassword"
+        static let MessagesFromDirectory = "PresentMessageFromDirectory"
+        
+    }
+    
+    struct PushNotifications {
+        
+        static let SenderId = "senderId"
+        static let MessageText = "messageText"
+        static let CreationDate = "creationDate"
+        static let ThreadId = "threadId"
+        static let EntityId = "entityId"
         
     }
     
     struct Notifications {
         
         static let UsersUpdated = "kWaterCoolerUsersUpdated"
-        
         static let MessageThreadsUpdated = "kWaterCoolerThreadsUpdated"
-        
         static let MessageThreadLastMessageUpdated = "kWaterCoolerMessageThreadLastMessageUpdated"
         static let MessageThreadLastMessageUpdatedUserInfoThreadIdKey = "kWaterCoolerMessageThreadLastMessageUpdatedUserInfoThreadIdKey"
-        
         static let NewMessageReceived = "kWaterCoolerNewMessage"
         static let NewMessageReceivedUserInfoMessageKey = "kWaterCoolerNewMessageUserInfoMessageKey"
+        
+    }
+    
+    struct Message {
+        
+        static let MaximumSectionTimeVariance:Double = 900.00
         
     }
 }

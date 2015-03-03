@@ -11,8 +11,9 @@
 		6305377C1A75CE770071F376 /* MessageTableViewSenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305377B1A75CE770071F376 /* MessageTableViewSenderCell.swift */; };
 		630537831A77DF4C0071F376 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630537821A77DF4C0071F376 /* Message.swift */; };
 		630537851A77DF590071F376 /* MessageThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630537841A77DF590071F376 /* MessageThread.swift */; };
+		630858C61AA3FA1700A273B0 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630858C51AA3FA1700A273B0 /* ChangePasswordViewController.swift */; };
+		630858C81AA3FD4B00A273B0 /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630858C71AA3FD4B00A273B0 /* ViewControllerExtensions.swift */; };
 		63203D7D1A6D4C3C00D49582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203D7C1A6D4C3C00D49582 /* AppDelegate.swift */; };
-		63203D7F1A6D4C3C00D49582 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203D7E1A6D4C3C00D49582 /* ViewController.swift */; };
 		63203D821A6D4C3C00D49582 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63203D801A6D4C3C00D49582 /* Main.storyboard */; };
 		63203D841A6D4C3C00D49582 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63203D831A6D4C3C00D49582 /* Images.xcassets */; };
 		63203D871A6D4C3C00D49582 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63203D851A6D4C3C00D49582 /* LaunchScreen.xib */; };
@@ -34,11 +35,17 @@
 		6333F3331A93BB4600618027 /* AboutTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333F3321A93BB4600618027 /* AboutTextView.swift */; };
 		6333F3351A95348800618027 /* Kinvey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6333F3341A95348800618027 /* Kinvey.plist */; };
 		634117201A82D8BA004090F1 /* KinveyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6341171F1A82D8BA004090F1 /* KinveyDataManager.swift */; };
+		634AC2391A97EA5A00A6DAE8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC2381A97EA5A00A6DAE8 /* ProfileViewController.swift */; };
+		634AC23B1A9BB33500A6DAE8 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC23A1A9BB33500A6DAE8 /* DateExtensions.swift */; };
+		634AC2431A9BB47B00A6DAE8 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC2421A9BB47B00A6DAE8 /* ImageExtensions.swift */; };
+		634AC2491AA26D7E00A6DAE8 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 634AC2471AA26D7E00A6DAE8 /* ProfileView.xib */; };
+		634AC24B1AA26E9A00A6DAE8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC24A1AA26E9A00A6DAE8 /* ProfileView.swift */; };
+		63558AB51AA2A4200016E28F /* UserDetailBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63558AB41AA2A4200016E28F /* UserDetailBaseViewController.swift */; };
+		63558AB71AA2A7860016E28F /* DirectoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63558AB61AA2A7860016E28F /* DirectoryDetailViewController.swift */; };
 		6359CFFF1A72F3270040E166 /* MessageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359CFFE1A72F3270040E166 /* MessageDetailViewController.swift */; };
 		6359D01D1A740C350040E166 /* MessageTableViewRecipientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6359D01C1A740C350040E166 /* MessageTableViewRecipientCell.swift */; };
 		6363B9F31A6DF74100187367 /* MessageThreadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6363B9F21A6DF74100187367 /* MessageThreadsViewController.swift */; };
 		6363B9F51A6E693F00187367 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6363B9F41A6E693F00187367 /* SignupViewController.swift */; };
-		6363B9F71A6E6BC400187367 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6363B9F61A6E6BC400187367 /* ImageUtils.swift */; };
 		6363B9F91A6E983000187367 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6363B9F81A6E983000187367 /* LandingPageViewController.swift */; };
 		6363B9FD1A6EB48500187367 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6363B9FC1A6EB48500187367 /* CoreImage.framework */; };
 		638A397E1A70457000D0111C /* DirectoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A397D1A70457000D0111C /* DirectoryTableViewCell.swift */; };
@@ -55,7 +62,6 @@
 		6393A2741A8E7ECC005AEDEB /* SLKTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6393A26B1A8E7ECC005AEDEB /* SLKTextViewController.m */; };
 		6393A2751A8E7ECC005AEDEB /* SLKTypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6393A26D1A8E7ECC005AEDEB /* SLKTypingIndicatorView.m */; };
 		6393A2771A92D56E005AEDEB /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6393A2761A92D56E005AEDEB /* InfoViewController.swift */; };
-		63B8EFBB1A8916A500FF51E5 /* DismissSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B8EFBA1A8916A500FF51E5 /* DismissSegue.swift */; };
 		63B8EFBF1A89360200FF51E5 /* DirectoryBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B8EFBE1A89360200FF51E5 /* DirectoryBaseTableViewController.swift */; };
 		63B8EFC11A89400200FF51E5 /* DirectorySearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B8EFC01A89400200FF51E5 /* DirectorySearchResultsTableViewController.swift */; };
 		63B8EFC41A89420600FF51E5 /* KinveyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B8EFC31A89420600FF51E5 /* KinveyExtensions.swift */; };
@@ -77,10 +83,11 @@
 		6305377B1A75CE770071F376 /* MessageTableViewSenderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewSenderCell.swift; sourceTree = "<group>"; };
 		630537821A77DF4C0071F376 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		630537841A77DF590071F376 /* MessageThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThread.swift; sourceTree = "<group>"; };
+		630858C51AA3FA1700A273B0 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		630858C71AA3FD4B00A273B0 /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
 		63203D771A6D4C3C00D49582 /* EnterpriseMessenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnterpriseMessenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63203D7B1A6D4C3C00D49582 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63203D7C1A6D4C3C00D49582 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		63203D7E1A6D4C3C00D49582 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		63203D811A6D4C3C00D49582 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63203D831A6D4C3C00D49582 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63203D861A6D4C3C00D49582 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -105,11 +112,17 @@
 		6333F3321A93BB4600618027 /* AboutTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTextView.swift; sourceTree = "<group>"; };
 		6333F3341A95348800618027 /* Kinvey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Kinvey.plist; path = EnterpriseMessenger/Kinvey.plist; sourceTree = "<group>"; };
 		6341171F1A82D8BA004090F1 /* KinveyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinveyDataManager.swift; sourceTree = "<group>"; };
+		634AC2381A97EA5A00A6DAE8 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		634AC23A1A9BB33500A6DAE8 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		634AC2421A9BB47B00A6DAE8 /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
+		634AC2481AA26D7E00A6DAE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProfileView.xib; sourceTree = "<group>"; };
+		634AC24A1AA26E9A00A6DAE8 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		63558AB41AA2A4200016E28F /* UserDetailBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailBaseViewController.swift; sourceTree = "<group>"; };
+		63558AB61AA2A7860016E28F /* DirectoryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryDetailViewController.swift; sourceTree = "<group>"; };
 		6359CFFE1A72F3270040E166 /* MessageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetailViewController.swift; sourceTree = "<group>"; };
 		6359D01C1A740C350040E166 /* MessageTableViewRecipientCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewRecipientCell.swift; sourceTree = "<group>"; };
 		6363B9F21A6DF74100187367 /* MessageThreadsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageThreadsViewController.swift; sourceTree = "<group>"; };
 		6363B9F41A6E693F00187367 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		6363B9F61A6E6BC400187367 /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 		6363B9F81A6E983000187367 /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
 		6363B9FC1A6EB48500187367 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		638A397D1A70457000D0111C /* DirectoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -136,7 +149,6 @@
 		6393A26C1A8E7ECC005AEDEB /* SLKTypingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLKTypingIndicatorView.h; sourceTree = "<group>"; };
 		6393A26D1A8E7ECC005AEDEB /* SLKTypingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLKTypingIndicatorView.m; sourceTree = "<group>"; };
 		6393A2761A92D56E005AEDEB /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		63B8EFBA1A8916A500FF51E5 /* DismissSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissSegue.swift; sourceTree = "<group>"; };
 		63B8EFBE1A89360200FF51E5 /* DirectoryBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryBaseTableViewController.swift; sourceTree = "<group>"; };
 		63B8EFC01A89400200FF51E5 /* DirectorySearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectorySearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		63B8EFC31A89420600FF51E5 /* KinveyExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinveyExtensions.swift; sourceTree = "<group>"; };
@@ -206,31 +218,17 @@
 		63203D791A6D4C3C00D49582 /* EnterpriseMessenger */ = {
 			isa = PBXGroup;
 			children = (
+				634AC2401A9BB42A00A6DAE8 /* Constants */,
+				634AC23D1A9BB40900A6DAE8 /* Resources */,
 				63B8EFC81A8AFC8000FF51E5 /* ObjectiveC */,
 				63B8EFC21A8941F000FF51E5 /* Extensions */,
 				63B8EFBC1A8935E200FF51E5 /* View */,
 				6341171E1A82D8A7004090F1 /* Manager */,
 				630537811A77DF320071F376 /* Model */,
+				63203D7A1A6D4C3C00D49582 /* Supporting Files */,
 				63203DB01A6D4ED800D49582 /* EnterpriseMessenger-Bridging-Header.h */,
 				63203D7C1A6D4C3C00D49582 /* AppDelegate.swift */,
-				63203D7E1A6D4C3C00D49582 /* ViewController.swift */,
-				63203D801A6D4C3C00D49582 /* Main.storyboard */,
-				63203D831A6D4C3C00D49582 /* Images.xcassets */,
-				63203D851A6D4C3C00D49582 /* LaunchScreen.xib */,
 				63203DB41A6D7D2100D49582 /* InterfaceConfiguration.swift */,
-				63203D7A1A6D4C3C00D49582 /* Supporting Files */,
-				63203DB81A6D8EB800D49582 /* BottomButton.swift */,
-				63203DBF1A6DAA6D00D49582 /* TextField.swift */,
-				63203DC11A6DB08F00D49582 /* MaskedImageView.swift */,
-				6333F3321A93BB4600618027 /* AboutTextView.swift */,
-				6363B9F21A6DF74100187367 /* MessageThreadsViewController.swift */,
-				6363B9F41A6E693F00187367 /* SignupViewController.swift */,
-				6363B9F61A6E6BC400187367 /* ImageUtils.swift */,
-				6363B9F81A6E983000187367 /* LandingPageViewController.swift */,
-				6359CFFE1A72F3270040E166 /* MessageDetailViewController.swift */,
-				63B8EFBA1A8916A500FF51E5 /* DismissSegue.swift */,
-				6393A2541A8E4D0B005AEDEB /* WaterCoolerConstants.swift */,
-				6393A2761A92D56E005AEDEB /* InfoViewController.swift */,
 			);
 			path = EnterpriseMessenger;
 			sourceTree = "<group>";
@@ -291,6 +289,53 @@
 				6341171F1A82D8BA004090F1 /* KinveyDataManager.swift */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		634AC23C1A9BB3B400A6DAE8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				63203DC11A6DB08F00D49582 /* MaskedImageView.swift */,
+				6333F3321A93BB4600618027 /* AboutTextView.swift */,
+				63203DB81A6D8EB800D49582 /* BottomButton.swift */,
+				63203DBF1A6DAA6D00D49582 /* TextField.swift */,
+				634AC24A1AA26E9A00A6DAE8 /* ProfileView.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		634AC23D1A9BB40900A6DAE8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				634AC23F1A9BB41B00A6DAE8 /* Images */,
+				634AC23E1A9BB41000A6DAE8 /* IB */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		634AC23E1A9BB41000A6DAE8 /* IB */ = {
+			isa = PBXGroup;
+			children = (
+				63203D801A6D4C3C00D49582 /* Main.storyboard */,
+				63203D851A6D4C3C00D49582 /* LaunchScreen.xib */,
+				634AC2471AA26D7E00A6DAE8 /* ProfileView.xib */,
+			);
+			name = IB;
+			sourceTree = "<group>";
+		};
+		634AC23F1A9BB41B00A6DAE8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				63203D831A6D4C3C00D49582 /* Images.xcassets */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		634AC2401A9BB42A00A6DAE8 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6393A2541A8E4D0B005AEDEB /* WaterCoolerConstants.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		6359CFF61A72F1A60040E166 /* Third Party */ = {
@@ -369,7 +414,17 @@
 			isa = PBXGroup;
 			children = (
 				638A397C1A70455D00D0111C /* Cells */,
+				634AC23C1A9BB3B400A6DAE8 /* Components */,
 				63B8EFBD1A8935E700FF51E5 /* Directory */,
+				6363B9F21A6DF74100187367 /* MessageThreadsViewController.swift */,
+				6363B9F41A6E693F00187367 /* SignupViewController.swift */,
+				6363B9F81A6E983000187367 /* LandingPageViewController.swift */,
+				6359CFFE1A72F3270040E166 /* MessageDetailViewController.swift */,
+				6393A2761A92D56E005AEDEB /* InfoViewController.swift */,
+				634AC2381A97EA5A00A6DAE8 /* ProfileViewController.swift */,
+				63558AB41AA2A4200016E28F /* UserDetailBaseViewController.swift */,
+				63558AB61AA2A7860016E28F /* DirectoryDetailViewController.swift */,
+				630858C51AA3FA1700A273B0 /* ChangePasswordViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -388,6 +443,9 @@
 			isa = PBXGroup;
 			children = (
 				63B8EFC31A89420600FF51E5 /* KinveyExtensions.swift */,
+				634AC23A1A9BB33500A6DAE8 /* DateExtensions.swift */,
+				634AC2421A9BB47B00A6DAE8 /* ImageExtensions.swift */,
+				630858C71AA3FD4B00A273B0 /* ViewControllerExtensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -483,6 +541,7 @@
 			files = (
 				63203D821A6D4C3C00D49582 /* Main.storyboard in Resources */,
 				63203D871A6D4C3C00D49582 /* LaunchScreen.xib in Resources */,
+				634AC2491AA26D7E00A6DAE8 /* ProfileView.xib in Resources */,
 				6333F3311A92D8F100618027 /* about.rtf in Resources */,
 				6333F3351A95348800618027 /* Kinvey.plist in Resources */,
 				63203D841A6D4C3C00D49582 /* Images.xcassets in Resources */,
@@ -508,12 +567,11 @@
 				6393A2701A8E7ECC005AEDEB /* UIView+SLKAdditions.m in Sources */,
 				6363B9F51A6E693F00187367 /* SignupViewController.swift in Sources */,
 				6393A2721A8E7ECC005AEDEB /* SLKTextInputbar.m in Sources */,
-				63203D7F1A6D4C3C00D49582 /* ViewController.swift in Sources */,
 				63203DB91A6D8EB800D49582 /* BottomButton.swift in Sources */,
-				6363B9F71A6E6BC400187367 /* ImageUtils.swift in Sources */,
 				6359D01D1A740C350040E166 /* MessageTableViewRecipientCell.swift in Sources */,
 				638A39801A70464E00D0111C /* DirectoryTableViewController.swift in Sources */,
 				6393A2731A8E7ECC005AEDEB /* SLKTextView.m in Sources */,
+				63558AB51AA2A4200016E28F /* UserDetailBaseViewController.swift in Sources */,
 				63203DC01A6DAA6D00D49582 /* TextField.swift in Sources */,
 				63B8EFC11A89400200FF51E5 /* DirectorySearchResultsTableViewController.swift in Sources */,
 				638A39821A7085F100D0111C /* MessageThreadTableViewCell.swift in Sources */,
@@ -521,6 +579,7 @@
 				630537831A77DF4C0071F376 /* Message.swift in Sources */,
 				63203DB51A6D7D2100D49582 /* InterfaceConfiguration.swift in Sources */,
 				6363B9F31A6DF74100187367 /* MessageThreadsViewController.swift in Sources */,
+				634AC24B1AA26E9A00A6DAE8 /* ProfileView.swift in Sources */,
 				63B8EFC41A89420600FF51E5 /* KinveyExtensions.swift in Sources */,
 				63B8EFC71A8AFC7B00FF51E5 /* ObjCUtil.m in Sources */,
 				6333F3331A93BB4600618027 /* AboutTextView.swift in Sources */,
@@ -529,17 +588,22 @@
 				6393A2771A92D56E005AEDEB /* InfoViewController.swift in Sources */,
 				6393A2741A8E7ECC005AEDEB /* SLKTextViewController.m in Sources */,
 				6363B9F91A6E983000187367 /* LandingPageViewController.swift in Sources */,
+				630858C61AA3FA1700A273B0 /* ChangePasswordViewController.swift in Sources */,
 				630537851A77DF590071F376 /* MessageThread.swift in Sources */,
 				634117201A82D8BA004090F1 /* KinveyDataManager.swift in Sources */,
+				634AC2391A97EA5A00A6DAE8 /* ProfileViewController.swift in Sources */,
+				63558AB71AA2A7860016E28F /* DirectoryDetailViewController.swift in Sources */,
 				6359CFFF1A72F3270040E166 /* MessageDetailViewController.swift in Sources */,
+				634AC2431A9BB47B00A6DAE8 /* ImageExtensions.swift in Sources */,
 				63B8EFBF1A89360200FF51E5 /* DirectoryBaseTableViewController.swift in Sources */,
+				630858C81AA3FD4B00A273B0 /* ViewControllerExtensions.swift in Sources */,
 				6393A26F1A8E7ECC005AEDEB /* UIScrollView+SLKAdditions.m in Sources */,
-				63B8EFBB1A8916A500FF51E5 /* DismissSegue.swift in Sources */,
 				6305377A1A75CE690071F376 /* MessageTableViewCellBase.swift in Sources */,
 				6393A2751A8E7ECC005AEDEB /* SLKTypingIndicatorView.m in Sources */,
 				638A397E1A70457000D0111C /* DirectoryTableViewCell.swift in Sources */,
 				6393A26E1A8E7ECC005AEDEB /* SLKTextView+SLKAdditions.m in Sources */,
 				6393A2591A8E7E98005AEDEB /* MBProgressHUD.m in Sources */,
+				634AC23B1A9BB33500A6DAE8 /* DateExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +640,14 @@
 				63203D861A6D4C3C00D49582 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		634AC2471AA26D7E00A6DAE8 /* ProfileView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				634AC2481AA26D7E00A6DAE8 /* Base */,
+			);
+			name = ProfileView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

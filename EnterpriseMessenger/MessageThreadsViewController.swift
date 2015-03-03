@@ -42,6 +42,7 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
     func addMessageThread(id:AnyObject) {
         let modalUserSelector = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ModalUserSelector") as UINavigationController
         let directory = modalUserSelector.topViewController as DirectoryTableViewController
+        directory.directoryMode = DirectoryMode.NewConversation
         directory.directoryDelegate = self
         presentViewController(modalUserSelector, animated: true, completion: nil)
     }
@@ -53,8 +54,12 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
         super.viewDidLoad()
         tableView.registerClass(MessageThreadTableViewCell.self, forCellReuseIdentifier: "MessageThreadCell")
         self.parentViewController?.navigationItem.setRightBarButtonItem(addButton, animated: true)
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, 0.0, 48.0, 0.0)
+        self.tableView.contentOffset = CGPointMake(0, 44.0)
+        let hud = presentIndeterminiteMessage("Loading")
         dataManager.fetchUsers { (users, error) -> () in
             self.dataManager.fetchMessageThreads()
+            hud.hide(true)
         }
     }
     

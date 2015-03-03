@@ -38,12 +38,17 @@ class MessageThread : NSObject, KCSPersistable {
         return self.lastMessage.getDateForSort().timeIntervalSinceNow
     }
     
+    // This method tells Kinvey to save the Message in the lastMessage property
+    // when the thread is saved.  If this method were not included, the message
+    // itself would not be saved when the thread is saved.
     override func referenceKinveyPropertiesOfObjectsToSave() -> [AnyObject]! {
         return [
             "lastMessage"
         ]
     }
     
+    // This maps the properties in the class to specific values in the Kinvey
+    // data store.
     override func hostToKinveyPropertyMapping() -> [NSObject : AnyObject]! {
         return [
             "entityId" : KCSEntityKeyId,
@@ -52,12 +57,17 @@ class MessageThread : NSObject, KCSPersistable {
         ]
     }
     
+    // This method tells Kinvey that the lastMessage property is a member of
+    // the Messages collection (you need to put the name of the Kinvey collection
+    // here and not the name of the class)
     override class func kinveyPropertyToCollectionMapping() -> [NSObject : AnyObject]! {
         return [
             "lastMessage" : "Messages"
         ]
     }
     
+    // Here you tell Kinvey which class to map the lastMessage property to. This
+    // is how it knows how to build the object when it fetches it from the server.
     override class func kinveyObjectBuilderOptions() -> [NSObject : AnyObject]! {
         let referenceMap:[NSObject : AnyObject] = [
             "lastMessage" : Message.self

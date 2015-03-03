@@ -28,6 +28,7 @@ class MessageTableViewCellBase : UITableViewCell {
     lazy var messageText:UILabel = {
         let messageText = UILabel()
         messageText.setTranslatesAutoresizingMaskIntoConstraints(false)
+        messageText.textColor = UIColor.darkGrayColor()
         messageText.backgroundColor = UIColor.clearColor()
         messageText.numberOfLines = 0
         messageText.font = UIFont(name: "HelveticaNeue-Light", size: 14.0)

@@ -28,6 +28,20 @@ class MessageTableViewRecipientCell : MessageTableViewCellBase {
         bubbleColor = InterfaceConfiguration.recipientBubbleColor
         setupSubviews()
     }
+    
+    var user:KCSUser? = nil {
+        didSet {
+            if let profileImage = user?.getProfileImage() {
+                profilePicView.image = profileImage
+            } else {
+                user?.populateProfileImage { (image) -> () in
+                    self.profilePicView.image = image
+                }
+            }
+
+        }
+    }
+    
     override func drawBubblePath(context: CGContextRef) {
         let currentFrame = bounds
         let topY = margin
