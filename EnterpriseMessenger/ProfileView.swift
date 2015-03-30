@@ -8,12 +8,26 @@
 
 import Foundation
 
+/*
+    This view can be used in one of 3 different ways.  This is an enum to 
+    enumerate these three options.
+*/
 enum ProfileMode {
     case Signup
     case UserProfile
     case DirectoryDetail
 }
 
+//MARK: - Delegate Protocol
+
+/*
+    The delegate protocol covers all three use cases of this view.  That being
+    said, all of the options are optional (because some are used in some use
+    cases and not others.  
+
+    To allow for optional protocol methods, the protocol has to extend
+    NSObjectProtocol and be declared as an '@objc' protocol.
+*/
 @objc protocol ProfileViewDelegate : NSObjectProtocol {
     
     optional func emailUserAtAddress(address:String) -> Void
@@ -26,9 +40,20 @@ enum ProfileMode {
     
 }
 
+//MARK: - Class Definition
+
 @objc(ProfileView)
 
+/*
+    This class represents a reusable UIView that is used in three different
+    places within the application: the signup form, the user profile screen, and
+    the directory user detail view.  
+
+    This view has a xib (ProfileView.xib) which it will be loaded from.
+*/
 class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    
+    //MARK: - IBOutlets
     
     @IBOutlet weak var changePasswordButton: UIButton!
     @IBOutlet weak var passwordContainerView: UIView!
@@ -44,20 +69,39 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     
+    //MARK: - Properties
+    
+    /*
+        This is the delegate for the view.  All interaction with the view controller
+        happen through this delegate.  It is a weak reference (as all delegates
+        generally should be).
+    */
+    weak var delegate:ProfileViewDelegate?
+    
+    /*
+        This gesture recognizer is used to detect any taps on the profile image (which
+        is used when the user wants to edit or delete their profile image.
+    */
     lazy var tapRecognizer:UITapGestureRecognizer = {
         let recognizer = UITapGestureRecognizer(target: self, action: "imageTap:")
         recognizer.delegate = self
         return recognizer
     }()
     
-    weak var delegate:ProfileViewDelegate?
-    
+    /*
+        This defines the mode for this view.  Since it can be displayed in one of
+        three modes, any change to the mode will call the setupViewForMode() method.
+    */
     var profileMode:ProfileMode = .Signup {
         didSet {
             setupViewForMode()
         }
     }
     
+    /*
+        This property is leveraged for the signup view and will trigger a call to the
+        delegate if the value changes for form completion.
+    */
     var isProfileComplete:Bool = false {
         didSet {
             if(oldValue != isProfileComplete) {
@@ -66,6 +110,10 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    /*
+        This property is leveraged to track changes to the profile from the original
+        user object.  If the value changes, a delegate call will be triggered.
+    */
     var hasUserProfileChanged:Bool = false {
         didSet {
             if(oldValue != hasUserProfileChanged) {
@@ -74,14 +122,27 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    /*
+        This property tracks if the profile picture has changed.  This is important
+        to know so that we can know if we need to save something new to the Kinvey
+        file store.
+    */
     var hasProfilePictureChanged:Bool = false
     
+    /*
+        This is the KCSUser that the view is being based on.  For the signup mode,
+        this value will be nil.
+    */
     var user:KCSUser? = nil {
         didSet {
             updateViewForUser()
         }
     }
     
+    /*
+        This is the profile image for the user.  Updating this value will update the
+        view state for the image.
+    */
     var photoImage:UIImage? = nil {
         didSet {
             hasProfilePictureChanged = true
@@ -95,6 +156,12 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    //MARK: - User Interaction and View Configuration
+    
+    /*
+        This method updates the state of the image view for the profile picture as well
+        as the image which is displayed when there is no profile picture selected.
+    */
     func setProfilePictureState(populated:Bool) {
         if(photoImageView.image != nil) {
             photoImageView.hidden = false;
@@ -107,10 +174,17 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    /*
+        This method is called when the tap gesture recognizer is triggered on the image.
+    */
     func imageTap(sender:AnyObject) {
         userDidPressPhoto(sender)
     }
     
+    /*
+        This method updates the view state based on the KCSUser instance which was set
+        with the user property.
+    */
     private func updateViewForUser() {
         firstNameField.text = user?.givenName
         lastNameField.text = user?.surname
@@ -137,6 +211,11 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    /*
+        This method configures the view based on the mode which the view is currently
+        set in.  This will hide / show some subviews as well as adding the tap
+        gesture recognizer (if needed).
+    */
     private func setupViewForMode() {
         passwordContainerView.hidden = (profileMode != .Signup)
         changePasswordButton.hidden = (profileMode != .UserProfile)
@@ -148,6 +227,10 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         configureAddPhotoButton()
     }
     
+    /*
+        This method configures the Add Photo button with the mask to match the Masked
+        Image View.
+    */
     func configureAddPhotoButton() {
         let addPhotoImage:UIImage = UIImage(named: "Add Photo")!;
         let maskImage:UIImage = UIImage(named: "CircleMask")!;
@@ -155,17 +238,21 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         addImageButton.setImage(maskedImage, forState: UIControlState.Normal);
     }
     
-    private func isEditable() -> Bool {
-        return (profileMode != .DirectoryDetail)
-    }
+    //MARK: - UITextFieldDelegate Implementation
     
-    //MARK: --
-    //MARK: UITextFieldDelegate Implementation
-    
+    /*
+        This is the method which the text fields call to know if they are editable.
+        We use the isEditable method to determine the state based on the current
+        mode.
+    */
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         return isEditable()
     }
     
+    /*
+        This delegate method for UITextField dictates what happens with the user
+        presses the return key.
+    */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if(textField == firstNameField) {
             lastNameField.becomeFirstResponder()
@@ -185,8 +272,7 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         return true
     }
     
-    //MARK: --
-    //MARK: IBActions
+    //MARK: - IBActions
     
     @IBAction func emailUser(sender:AnyObject) {
         delegate?.emailUserAtAddress?(user!.email!)
@@ -217,7 +303,14 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         evaluateCompletionStatus()
     }
     
-    func evaluateUserProfileChanges() {
+    //MARK: - Private Methods
+    
+    /*
+        This method is called in several different scenarios (for example when a
+        text field changes) to determine if the profile has changed from its
+        original state.
+    */
+    private func evaluateUserProfileChanges() {
         if(hasProfilePictureChanged) {
             hasUserProfileChanged = true
             return
@@ -246,7 +339,18 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         hasUserProfileChanged = false
     }
     
-    func evaluateCompletionStatus() {
+    /*
+        This method determined if the form is editable based on the mode.
+    */
+    private func isEditable() -> Bool {
+        return (profileMode != .DirectoryDetail)
+    }
+    
+    /*
+        This method evaluates the profile completion state based on the values
+        in the text fields.
+    */
+    private func evaluateCompletionStatus() {
         if(isTextFieldValid(firstNameField) &&
             isTextFieldValid(lastNameField) &&
             isTextFieldValid(emailTextField) &&
@@ -258,7 +362,11 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
-    func isTextFieldValid(field:UITextField) -> Bool {
+    /*
+        This is the method that we use to determine if the value entered in a text
+        field is a valid value.  In this case, it needs to not be empty.
+    */
+    private func isTextFieldValid(field:UITextField) -> Bool {
         return countElements(field.text) > 0;
     }
     

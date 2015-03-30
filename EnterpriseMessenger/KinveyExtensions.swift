@@ -8,18 +8,30 @@
 
 import Foundation
 
-let kWaterCoolerUserTitleValue = "title";
-let kWaterCoolerUserProfilePicFileId = "profile_pic_id";
-
+/*
+    The following methods and properties are extensions of the core KCSUser object
+    (which is provided in the Kinvey iOS SDK.
+*/
 extension KCSUser {
     
+    /*
+        This method is a convenience method to get the user's profile picture as a
+        UIImage.  This leverages a cache that is defined within the app delegate.  If
+        the image has not been saved in the cache, this will return nil.  If that
+        happens, you can call populateProfileImage to populate the cache.
+    */
     func getProfileImage() -> UIImage? {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         return appDelegate.dataManager.imageCache[self.userId]
     }
     
+    /*
+        This method populates the profile pic in the application cache for this user.
+        Once this has been called, the profile pic can be fetched synchronously by
+        using the getProfileImage method.
+    */
     func populateProfileImage(completion:(UIImage?) -> ()) {
-        let pictureId = self.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String!
+        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
         if(pictureId == nil) {
             completion(nil)
         }
@@ -37,42 +49,66 @@ extension KCSUser {
         }, progressBlock: nil)
     }
     
+    /*
+        This synchronous method allows us to check if a user has a profile picture
+        in their user profile or not.
+    */
     func hasProfileImage() -> Bool {
-        let pictureId = self.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String!
+        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
         if  pictureId != nil && !pictureId.isEmpty {
             return true
         }
         return false
     }
     
+    /*
+        This property handles the getting / setting of the profile picture ID for
+        the user.  This uses Kinvey's ability to save arbitrary key-value data to
+        the specific user.
+    */
     var profilePictureId:String? {
         get {
-            return self.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String!
+            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
         }
         
         set {
             if(newValue != nil) {
-                setValue(newValue, forAttribute: kWaterCoolerUserProfilePicFileId)
+                setValue(newValue, forAttribute: WaterCoolerConstants.Kinvey.ProfilePicIdField)
             } else {
-                removeValueForAttribute(kWaterCoolerUserProfilePicFileId)
+                removeValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField)
             }
         }
     }
     
+    /*
+        This property handles the getting / setting of the job title for the user.
+        This uses Kinvey's ability to save arbitrary key-value data to the specific
+        user.
+    */
     var title:String {
         get {
-            return self.getValueForAttribute(kWaterCoolerUserTitleValue) as String!
+            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.UserTitleField) as String!
         }
         
         set {
-            setValue(newValue, forAttribute: kWaterCoolerUserTitleValue)
+            setValue(newValue, forAttribute: WaterCoolerConstants.Kinvey.UserTitleField)
         }
     }
     
 }
 
+/*
+    The following methods and properties are extensions of the core KCSMetadata object
+    (which is provided in the Kinvey iOS SDK.
+*/
 extension KCSMetadata {
     
+    /*
+        This convenience initializer handles the configurating of permissions metadata.
+        You can pass in an array of User ID's which will be allowed both read and write
+        access to the data.  You can also add the active user without having to pass in
+        the ID.
+    */
     convenience init(userIds:[String], includeActiveUser:Bool) {
         self.init()
         var ids = userIds

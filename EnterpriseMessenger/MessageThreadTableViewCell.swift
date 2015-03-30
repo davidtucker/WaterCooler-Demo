@@ -11,17 +11,15 @@ import UIKit
 
 class MessageThreadTableViewCell : UITableViewCell {
     
-    class var viewMetrics:[NSString:CGFloat] {
-        return [
-            "outerGap" : 8.0,
-            "timeGap" : 10.0,
-            "picSize" : 50.0,
-            "minRecipientWidth" : 106.0,
-            "minTimeWidth" : 75.0,
-            "accessoryAllowance" : 38.0
-        ]
-    }
+    //MARK: - Class Methods and Properties
     
+    /*
+        This method is used to calculate the height of the message text.  Ideally
+        this would be automatic using UITableViewAutomaticDimension, but there was
+        an issue with iOS 8.0 which would cause a visual flash when using this.  That
+        being said, we are going to leverage an explicit row height, and this method
+        facilitates determining the height based on the height of the message text.
+    */
     class func heightForMessageText(messageText:String, width:CGFloat) -> CGFloat {
         
         let font = InterfaceConfiguration.contentFont
@@ -39,13 +37,22 @@ class MessageThreadTableViewCell : UITableViewCell {
         return height
     }
     
-    var thread:MessageThread! = nil {
-        didSet {
-            if(thread != nil) {
-                updateViewForThread(thread)
-            }
-        }
+    /*
+        These are the view metrics that are leveraged both by the heightForMessageText
+        and the auto-layout constraints for the view.
+    */
+    class var viewMetrics:[NSString:CGFloat] {
+        return [
+            "outerGap" : 8.0,
+            "timeGap" : 10.0,
+            "picSize" : 50.0,
+            "minRecipientWidth" : 106.0,
+            "minTimeWidth" : 75.0,
+            "accessoryAllowance" : 38.0
+        ]
     }
+    
+    //MARK: - UIView Component Definition and Creation
     
     lazy var profileImage:MaskedImageView = {
         let image:MaskedImageView = MaskedImageView()
@@ -80,10 +87,14 @@ class MessageThreadTableViewCell : UITableViewCell {
         return label
     }()
     
+    //MARK: - Data Manager
+    
     lazy var dataManager:KinveyDataManager = {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         return appDelegate.dataManager
     }()
+    
+    //MARK: - Initialization and View Setup
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -95,6 +106,10 @@ class MessageThreadTableViewCell : UITableViewCell {
         setupSubviews()
     }
     
+    /*
+        This method adds the subviews and sets up the needed auto-layout constraints
+        for the view.
+    */
     func setupSubviews() {
         accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
@@ -129,12 +144,23 @@ class MessageThreadTableViewCell : UITableViewCell {
         contentView.addConstraints(newConstraints)
     }
     
-    override func prepareForReuse() {
-        recipientLabel.text = nil
-        contentLabel.text = nil
-        timeLabel.text = nil
+    //MARK: - Customization of the View for Data
+    
+    /*
+        The thread property that gets assigned to the cell.  When it is set, it calls
+        updateViewForThread which actually updates the state of the subviews.
+    */
+    var thread:MessageThread! = nil {
+        didSet {
+            if(thread != nil) {
+                updateViewForThread(thread)
+            }
+        }
     }
     
+    /*
+        This method updates the cell when a new thread is assigned to the cell.
+    */
     func updateViewForThread(thread:MessageThread) {
         if(thread.lastMessage != nil) {
             self.timeLabel.text = InterfaceConfiguration.formattedDate(DateFormat.Short, date: thread.lastMessage.getDateForSort())
@@ -148,7 +174,7 @@ class MessageThreadTableViewCell : UITableViewCell {
         
         if let user = dataManager.fetchUserFromThread(thread) {
             self.recipientLabel.text = user.givenName + " " + user.surname
-            if let pictureId = user.getValueForAttribute(kWaterCoolerUserProfilePicFileId) as String! {
+            if let pictureId = user.profilePictureId {
                 self.profileImage.image = nil
                 if let userProfileImage = user.getProfileImage() {
                     profileImage.image = userProfileImage
@@ -159,7 +185,17 @@ class MessageThreadTableViewCell : UITableViewCell {
                 }
             }
         }
-        
+    }
+    
+    /*
+        This method clears out the cell before a new thread gets assigned to it.
+        It purposefully does not clear the profile pic to avoid a visual flash when
+        reusing a cell.
+    */
+    override func prepareForReuse() {
+        recipientLabel.text = nil
+        contentLabel.text = nil
+        timeLabel.text = nil
     }
     
 }

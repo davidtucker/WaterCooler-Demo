@@ -10,6 +10,13 @@ import Foundation
 
 struct WaterCoolerConstants {
     
+    struct Kinvey {
+        
+        static let UserTitleField = "title"
+        static let ProfilePicIdField = "profile_pic_id"
+        
+    }
+    
     struct Config {
         
         static let AppKey = "appKey"
@@ -55,4 +62,5 @@ struct WaterCoolerConstants {
         static let MaximumSectionTimeVariance:Double = 900.00
         
     }
+    
 }

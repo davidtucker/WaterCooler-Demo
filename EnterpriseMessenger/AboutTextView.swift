@@ -8,6 +8,12 @@
 
 import Foundation
 
+/*
+    This method was utilized to create a variable height dynamic UITextView for
+    use inside of a UIScrollView leveraging auto-layout. This allows the
+    intrinsicContentSize to be factored in for the content that is being
+    shown.
+*/
 class AboutTextView : UITextView {
     
     override func intrinsicContentSize() -> CGSize {

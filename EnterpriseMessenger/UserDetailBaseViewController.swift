@@ -258,7 +258,7 @@ extension UserDetailBaseViewController {
         var userParams = [ KCSUserAttributeGivenname : profileView.firstNameField.text,
             KCSUserAttributeSurname : profileView.lastNameField.text,
             KCSUserAttributeEmail : profileView.emailTextField.text,
-            kWaterCoolerUserTitleValue : profileView.titleTextField.text
+            WaterCoolerConstants.Kinvey.UserTitleField : profileView.titleTextField.text
         ];
         
         // Save the user to Kinvey
@@ -286,7 +286,7 @@ extension UserDetailBaseViewController {
     }
     
     func assignProfilePictureIdToUser(user:KCSUser, picture:KCSFile, completion: () -> Void) {
-        user.setValue(picture.kinveyObjectId(), forAttribute: kWaterCoolerUserProfilePicFileId);
+        user.setValue(picture.kinveyObjectId(), forAttribute: WaterCoolerConstants.Kinvey.ProfilePicIdField);
         user.saveWithCompletionBlock { (user:[AnyObject]!, error:NSError!) -> Void in
             completion();
         }

@@ -48,6 +48,14 @@ class InterfaceConfiguration {
         return UIFont(name: "HelveticaNeue-Light", size: 12.0)!
     }
     
+    class var cellTitleFont:UIFont {
+        return UIFont(name: "HelveticaNeue-Medium", size: 18.0)!
+    }
+    
+    class var cellSubtitleFont:UIFont {
+        return UIFont(name: "HelveticaNeue-LightItalic", size: 14.0)!
+    }
+    
     class var senderBubbleColor:UIColor {
         return UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
     }

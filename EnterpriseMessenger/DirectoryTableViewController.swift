@@ -9,15 +9,21 @@
 import Foundation
 import UIKit
 
+/*
+    This view controller can be prsented in one of two ways: either as the directory
+    listing from the tab controller or when the user presses the button for a new
+    conversation.
+*/
 enum DirectoryMode {
     case NewConversation
     case DirectoryDetail
 }
 
+/*
+    This delegate is used communicate the message target.
+*/
 protocol DirectoryTableViewControllerDelegate {
-    
     func setMessageTarget(thread:MessageThread)
-    
 }
 
 class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
@@ -25,11 +31,6 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     var directoryMode:DirectoryMode = DirectoryMode.DirectoryDetail
     
     var isReappearing:Bool = false
-
-    lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        return appDelegate.dataManager
-    }()
     
     var directoryDelegate:DirectoryTableViewControllerDelegate?
     
@@ -53,7 +54,22 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
         return resultsTableController
     }()
     
+    lazy var dataManager:KinveyDataManager = {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        return appDelegate.dataManager
+        }()
+    
     var selectedUser:KCSUser! = nil
+    
+    //MARK: - User Interactions
+    
+    func cancelDirectorySearch(sender:AnyObject!) {
+        self.dismissViewControllerAnimated(true) {
+            self.directoryDelegate = nil
+        }
+    }
+    
+    //MARK: - UIViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -83,6 +99,8 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
         isReappearing = true
     }
     
+    //MARK: - UITableViewDataSource
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(dataManager.sortedUsers == nil) {
             return 0
@@ -101,11 +119,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
         return 1
     }
     
-    func cancelDirectorySearch(sender:AnyObject!) {
-        self.dismissViewControllerAnimated(true) {
-            self.directoryDelegate = nil
-        }
-    }
+    //MARK: - UITableViewDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -136,6 +150,9 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
             }
         }
     }
+    
+    //MARK: -
+    //MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         self.searchController.searchBar.text = ""

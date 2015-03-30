@@ -199,9 +199,9 @@
 				6333F3341A95348800618027 /* Kinvey.plist */,
 				6333F32F1A92D8E400618027 /* Content */,
 				6359CFF61A72F1A60040E166 /* Third Party */,
-				63203DAF1A6D4D1B00D49582 /* Frameworks */,
 				63203D791A6D4C3C00D49582 /* EnterpriseMessenger */,
 				63203D8F1A6D4C3C00D49582 /* EnterpriseMessengerTests */,
+				63203DAF1A6D4D1B00D49582 /* Frameworks */,
 				63203D781A6D4C3C00D49582 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -352,8 +352,8 @@
 			children = (
 				638A397D1A70457000D0111C /* DirectoryTableViewCell.swift */,
 				638A39811A7085F100D0111C /* MessageThreadTableViewCell.swift */,
-				6359D01C1A740C350040E166 /* MessageTableViewRecipientCell.swift */,
 				630537791A75CE690071F376 /* MessageTableViewCellBase.swift */,
+				6359D01C1A740C350040E166 /* MessageTableViewRecipientCell.swift */,
 				6305377B1A75CE770071F376 /* MessageTableViewSenderCell.swift */,
 			);
 			name = Cells;

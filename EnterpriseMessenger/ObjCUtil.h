@@ -11,6 +11,11 @@
 
 @interface ObjCUtil : NSObject
 
+/*
+ Normally this method would not be needed. In the early versions of Swift, the NSStringDrawingOptions
+ type was mis-typed which didn't allow for a standard bitmask using Swift operators.  This shouldn't
+ be needed in future versions of Swift.
+ */
 + (NSStringDrawingOptions)standardStringDrawingOptions;
 
 @end

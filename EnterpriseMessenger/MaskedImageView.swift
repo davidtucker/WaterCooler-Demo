@@ -8,8 +8,16 @@
 
 import Foundation
 
+/*
+    This class is a UIImageView subclass which has a circular mask over the
+    image.
+*/
 class MaskedImageView : UIImageView {
 
+    /*
+        This method configures the circular mask and sets it on the CALayer
+        for the image view.
+    */
     func setupMask() {
         let maskLayer:CAShapeLayer = CAShapeLayer();
         maskLayer.path = UIBezierPath(ovalInRect: self.bounds).CGPath;

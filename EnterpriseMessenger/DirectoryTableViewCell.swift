@@ -11,6 +11,8 @@ import UIKit
 
 class DirectoryTableViewCell : UITableViewCell {
     
+    //MARK: - UIView Component Creation
+    
     lazy var profileImage:MaskedImageView = {
         let image:MaskedImageView = MaskedImageView()
         image.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -19,29 +21,36 @@ class DirectoryTableViewCell : UITableViewCell {
     
     lazy var nameLabel:UILabel = {
         let label:UILabel = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Medium", size: 18.0)
+        label.font = InterfaceConfiguration.cellTitleFont
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         return label
     }()
     
     lazy var titleLabel:UILabel = {
         let label:UILabel = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-LightItalic", size: 14.0)
+        label.font = InterfaceConfiguration.cellSubtitleFont
         label.textColor = UIColor.lightGrayColor()
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         return label
     }()
     
+    //MARK: - Init & Creation
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSubviews()
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupSubviews()
     }
     
+    /*
+        This method is called when the cell is initialized.  It will lazily create
+        the UIViews for the view.  Then it will add these and  setup the needed
+        auto-layout constraints.
+    */
     func setupSubviews() {
         accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         contentView.addSubview(profileImage)
@@ -81,6 +90,12 @@ class DirectoryTableViewCell : UITableViewCell {
         contentView.addConstraints(newConstraints)
     }
     
+    //MARK: - Properties
+    
+    /*
+        This property is the data for the cell.  When you assign a user to a cell,
+        it uses the Swift didSet closure to call the updateViewForUser method.
+    */
     var user:KCSUser! = nil {
         didSet {
             // Set State if We Have a New User
@@ -90,6 +105,12 @@ class DirectoryTableViewCell : UITableViewCell {
         }
     }
     
+    /*
+        In this method, we'll clear out anything that needs to be cleared out
+        before being reused.  Most of this will get reset when adding a new user.
+        We specifically aren't clearing the profile image as we don't want the
+        image to 'flash' when changing to a new user.
+    */
     override func prepareForReuse() {
         // Clear out all state from previous user
         profileImage.image = nil
@@ -97,18 +118,22 @@ class DirectoryTableViewCell : UITableViewCell {
         titleLabel.text = nil
     }
     
+    /*
+        This private method updates the cell based on the user property that has
+        been assigned.
+    */
     private func updateViewForUser(user:KCSUser) {
         nameLabel.text = user.givenName + " " + user.surname
-        titleLabel.text = user.getValueForAttribute(kWaterCoolerUserTitleValue) as String!
+        titleLabel.text = user.title
         
         if let userProfileImage = user.getProfileImage() {
             profileImage.image = userProfileImage
         } else {
+            self.profileImage.image = nil
             user.populateProfileImage { (image) -> () in
                 self.profileImage.image = image
             }
         }
-        
     }
     
 }
