@@ -34,8 +34,8 @@ class DirectoryDetailViewController : UserDetailBaseViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let messagesNavController = segue.destinationViewController as UINavigationController
-        let messagesModalController = messagesNavController.viewControllers[0] as MessageDetailViewController
+        let messagesNavController = segue.destinationViewController as! UINavigationController
+        let messagesModalController = messagesNavController.viewControllers[0] as! MessageDetailViewController
         dataManager.getThreadForUser(user!, completion: { (thread) -> () in
             messagesModalController.thread = thread
         })

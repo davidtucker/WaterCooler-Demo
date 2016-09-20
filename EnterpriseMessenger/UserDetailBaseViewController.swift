@@ -12,14 +12,14 @@ class UserDetailBaseViewController : UIViewController, ProfileViewDelegate, UIIm
     
     lazy var profileView:ProfileView = {
         let profileView = NSBundle.mainBundle().loadNibNamed("ProfileView", owner: self, options: nil)[0] as? ProfileView
-        profileView!.setTranslatesAutoresizingMaskIntoConstraints(false)
+        profileView!.translatesAutoresizingMaskIntoConstraints = false
         profileView!.profileMode = self.profileMode()
         profileView!.delegate = self
         return profileView!
     }()
     
     lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager
     }()
     
@@ -51,7 +51,7 @@ class UserDetailBaseViewController : UIViewController, ProfileViewDelegate, UIIm
         var newConstraints:[NSLayoutConstraint] = []
         
         for format:String in constraintsFormats {
-            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(0), metrics: nil, views: views) as [NSLayoutConstraint]
+            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views) as [NSLayoutConstraint]
             newConstraints += formatConstraints
         }
         
@@ -76,7 +76,7 @@ class UserDetailBaseViewController : UIViewController, ProfileViewDelegate, UIIm
     
     func keyboardWillShow(notification:NSNotification) {
         let userInfo = notification.userInfo!
-        let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as NSValue).CGRectValue().size
+        let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue().size
         let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height + 50.0, 0.0)
         profileView.scrollView.contentInset = contentInsets
         profileView.scrollView.scrollIndicatorInsets = contentInsets
@@ -127,7 +127,7 @@ class UserDetailBaseViewController : UIViewController, ProfileViewDelegate, UIIm
         self.presentViewController(pickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
         });
         
@@ -138,7 +138,7 @@ class UserDetailBaseViewController : UIViewController, ProfileViewDelegate, UIIm
         
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue) { () -> Void in
-            var squareImage = selectedImage?.squareCroppedImage(500.0);
+            let squareImage = selectedImage?.squareCroppedImage(500.0);
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.profileView.photoImage = squareImage;
             })
@@ -226,7 +226,7 @@ extension UserDetailBaseViewController {
             let metadata = KCSMetadata();
             metadata.setGloballyReadable(true);
             
-            var fileParams = [ KCSFileMimeType : "image/jpeg",
+            let fileParams = [ KCSFileMimeType : "image/jpeg",
                 KCSFileACL : metadata ];
             
             KCSFileStore.uploadData(photoData, options: fileParams, completionBlock: { (file:KCSFile!, error:NSError!) -> Void in
@@ -245,7 +245,7 @@ extension UserDetailBaseViewController {
         } else {
             KCSFileStore.deleteFile(fileId, completionBlock: { (count, error) -> Void in
                 if(error != nil) {
-                    println("Error deleting profile pic: " + error.localizedDescription)
+                    print("Error deleting profile pic: " + error.localizedDescription)
                 }
                 completion()
             })
@@ -255,22 +255,22 @@ extension UserDetailBaseViewController {
     func createKinveyUser(completion: (KCSUser!) -> ()) {
         
         // Set the parameters of the profile file upload
-        var userParams = [ KCSUserAttributeGivenname : profileView.firstNameField.text,
-            KCSUserAttributeSurname : profileView.lastNameField.text,
-            KCSUserAttributeEmail : profileView.emailTextField.text,
-            WaterCoolerConstants.Kinvey.UserTitleField : profileView.titleTextField.text
+        var userParams: [NSString : AnyObject] = [ KCSUserAttributeGivenname : profileView.firstNameField.text!,
+            KCSUserAttributeSurname : profileView.lastNameField.text!,
+            KCSUserAttributeEmail : profileView.emailTextField.text!,
+            WaterCoolerConstants.Kinvey.UserTitleField : profileView.titleTextField.text!
         ];
         
         // Save the user to Kinvey
         KCSUser.userWithUsername(profileView.emailTextField.text, password: profileView.passwordField.text, fieldsAndValues: userParams) { (user:KCSUser!, error:NSError!, result:KCSUserActionResult) in
             if(error != nil) {
-                println("USER NOT CREATED - ERROR: " + error.description)
+                print("USER NOT CREATED - ERROR: " + error.description)
             } else {
-                self.uploadProfilePicture(self.profileView.photoImageView.image!, { (file) -> () in
+                self.uploadProfilePicture(self.profileView.photoImageView.image!) { (file) -> () in
                     self.assignProfilePictureIdToUser(user, picture:file) { () -> Void in
                         completion(user);
                     }
-                })
+                }
             }
         }
     }
@@ -280,7 +280,7 @@ extension UserDetailBaseViewController {
             if(error != nil) {
                 self.presentErrorMessage(error)
             } else {
-                completion(results[0] as KCSUser)
+                completion(results[0] as! KCSUser)
             }
         }
     }

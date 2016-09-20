@@ -20,7 +20,7 @@ class DirectorySearchResultsTableViewController : DirectoryBaseTableViewControll
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:DirectoryTableViewCell! = tableView.dequeueReusableCellWithIdentifier("DirectoryCell") as DirectoryTableViewCell;
+        let cell:DirectoryTableViewCell! = tableView.dequeueReusableCellWithIdentifier("DirectoryCell") as! DirectoryTableViewCell;
         cell.user = filteredUsers[indexPath.row]
         return cell
     }

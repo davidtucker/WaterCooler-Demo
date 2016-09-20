@@ -24,12 +24,12 @@ class InfoViewController : UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        let rtfURL = NSBundle.mainBundle().URLForResource("about", withExtension: "rtf")
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        let rtfURL = NSBundle.mainBundle().URLForResource("about", withExtension: "rtf")!
         let options = [
             NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType
         ]
-        let attrStr = NSAttributedString(fileURL: rtfURL, options: options, documentAttributes: nil, error: nil)
+        let attrStr = try? NSAttributedString(fileURL: rtfURL, options: options, documentAttributes: nil)
         infoTextView.delegate = self
         infoTextView.attributedText = attrStr
         infoTextView.selectable = true
@@ -40,7 +40,7 @@ class InfoViewController : UIViewController, UITextViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
-        println("WILL APPEAR")
+        print("WILL APPEAR")
     }
     
     //MARK: -

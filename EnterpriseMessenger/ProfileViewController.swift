@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ProfileViewController : UserDetailBaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class ProfileViewController : UserDetailBaseViewController, UITextFieldDelegate {
     
     lazy var resetButton:UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Reset", style: .Plain, target: self, action: "resetProfile:")
@@ -61,7 +61,7 @@ class ProfileViewController : UserDetailBaseViewController, UIImagePickerControl
             })
         } else if profileView.hasProfilePictureChanged {
             deleteProfilePicture(KCSUser.activeUser(), completion: { () -> () in
-                if let image = self.profileView.photoImageView.image? {
+                if let image = self.profileView.photoImageView.image {
                     self.uploadProfilePicture(image, completion: { (file) -> () in
                         if let photoId = file.fileId {
                             self.updateUser(KCSUser.activeUser())
@@ -87,7 +87,7 @@ class ProfileViewController : UserDetailBaseViewController, UIImagePickerControl
     func updateUser(user:KCSUser) {
         KCSUser.activeUser().givenName = profileView.firstNameField.text
         KCSUser.activeUser().surname = profileView.lastNameField.text
-        KCSUser.activeUser().title = profileView.titleTextField.text
+        KCSUser.activeUser().title = profileView.titleTextField.text!
         KCSUser.activeUser().email = profileView.emailTextField.text
         KCSUser.activeUser().username = profileView.emailTextField.text
     }

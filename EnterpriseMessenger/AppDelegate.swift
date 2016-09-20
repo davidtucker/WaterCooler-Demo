@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // If we have an active user, proceed to the main view and bypass the login / signup view
         if(KCSUser.activeUser() != nil) {
-            let navController:UINavigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainNavigationController") as UINavigationController;
+            let navController:UINavigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MainNavigationController") as! UINavigationController;
             self.window?.rootViewController = navController;
         }
         
@@ -62,8 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(isValid, "Be sure you have defined your Kinvey configuration in the AppDelegate - both the appKey and appSecret")
         
         // Setup the Kinvey Client Library
-        let appKey = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppKey) as String
-        let appSecret = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppSecret) as String
+        let appKey = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppKey) as! String
+        let appSecret = kinveyConfig.objectForKey(WaterCoolerConstants.Config.AppSecret) as! String
         setupKinveyClient(appKey,appSecret: appSecret)
     }
     
@@ -81,8 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        let appKey = config.objectForKey(WaterCoolerConstants.Config.AppKey) as String?
-        let appSecret = config.objectForKey(WaterCoolerConstants.Config.AppSecret) as String?
+        let appKey = config.objectForKey(WaterCoolerConstants.Config.AppKey) as! String?
+        let appSecret = config.objectForKey(WaterCoolerConstants.Config.AppSecret) as! String?
         
         // Verify that these values are not nil
         if (appKey == nil) || (appSecret == nil) {
@@ -100,9 +100,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func testKinveyConnection() {
         KCSPing.pingKinveyWithBlock { (result:KCSPingResult!) -> Void in
             if(result.pingWasSuccessful) {
-                println("Connecting to Kinvey: Success");
+                print("Connecting to Kinvey: Success");
             } else {
-                println("Connecting to Kinvey: Failure");
+                print("Connecting to Kinvey: Failure");
             }
         };
     }

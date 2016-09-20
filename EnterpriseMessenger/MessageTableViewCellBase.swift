@@ -42,7 +42,7 @@ class MessageTableViewCellBase : UITableViewCell {
     
     lazy var messageText:UILabel = {
         let messageText = UILabel()
-        messageText.setTranslatesAutoresizingMaskIntoConstraints(false)
+        messageText.translatesAutoresizingMaskIntoConstraints = false
         messageText.textColor = UIColor.darkGrayColor()
         messageText.backgroundColor = UIColor.clearColor()
         messageText.numberOfLines = 0
@@ -65,7 +65,7 @@ class MessageTableViewCellBase : UITableViewCell {
         UIColor.whiteColor().set()
         CGContextClearRect(context, self.bounds)
         CGContextFillRect(context, rect)
-        CGContextSetLineJoin(context, kCGLineJoinRound)
+        CGContextSetLineJoin(context, CGLineJoin.Round)
         CGContextSetFillColorWithColor(context, bubbleColor.CGColor)
         
         // Draw and Fill the Path
@@ -79,7 +79,7 @@ class MessageTableViewCellBase : UITableViewCell {
         This method should be implemented in the subclasses to handle the drawing
         specific to the type of cell.
     */
-    func drawBubblePath(context:CGContextRef) {
+    func drawBubblePath(context:CGContextRef!) {
         assert(false, "Implement in Subclass")
     }
     

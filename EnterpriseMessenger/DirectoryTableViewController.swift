@@ -55,7 +55,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     }()
     
     lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager
         }()
     
@@ -90,7 +90,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
             self.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
             self.tableView.contentOffset = CGPointMake(0, 44.0)
         }
-        if let indexPath = tableView.indexPathForSelectedRow() {
+        if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
     }
@@ -109,7 +109,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:DirectoryTableViewCell! = tableView.dequeueReusableCellWithIdentifier("DirectoryCell") as DirectoryTableViewCell;
+        let cell:DirectoryTableViewCell! = tableView.dequeueReusableCellWithIdentifier("DirectoryCell") as! DirectoryTableViewCell;
         let user:KCSUser! = dataManager.sortedUsers[indexPath.row];
         cell.user = user
         return cell
@@ -156,7 +156,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         self.searchController.searchBar.text = ""
-        let destinationViewController = segue.destinationViewController as DirectoryDetailViewController
+        let destinationViewController = segue.destinationViewController as! DirectoryDetailViewController
         destinationViewController.user = selectedUser
     }
     
@@ -166,7 +166,7 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchResults = dataManager.sortedUsers
         let whitespaceCharacterSet = NSCharacterSet.whitespaceCharacterSet()
-        let strippedString = searchController.searchBar.text.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
+        let strippedString = searchController.searchBar.text!.stringByTrimmingCharactersInSet(whitespaceCharacterSet)
         let searchItems = strippedString.componentsSeparatedByString(" ") as [String]
         
         var andMatchPredicates = [NSPredicate]()
@@ -179,12 +179,12 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
             searchItemsPredicate.append(predicateForField("surname", searchTerm:searchString))
             
             // Add this OR predicate to our master AND predicate.
-            let orMatchPredicates = NSCompoundPredicate.orPredicateWithSubpredicates(searchItemsPredicate)
+            let orMatchPredicates = NSCompoundPredicate(orPredicateWithSubpredicates: searchItemsPredicate)
             andMatchPredicates.append(orMatchPredicates)
         }
         
         // Match up the fields of the Product object.
-        let finalCompoundPredicate = NSCompoundPredicate.andPredicateWithSubpredicates(andMatchPredicates)
+        let finalCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
         let filteredResults = searchResults.filter { finalCompoundPredicate.evaluateWithObject($0) }
         
         // Hand over the filtered results to our search results table.
@@ -193,8 +193,8 @@ class DirectoryTableViewController : DirectoryBaseTableViewController, UISearchB
     }
     
     private func predicateForField(fieldName:String, searchTerm:String) -> NSPredicate {
-        var lhs = NSExpression(forKeyPath: fieldName)
-        var rhs = NSExpression(forConstantValue: searchTerm)
+        let lhs = NSExpression(forKeyPath: fieldName)
+        let rhs = NSExpression(forConstantValue: searchTerm)
         return NSComparisonPredicate(leftExpression: lhs, rightExpression: rhs, modifier: .DirectPredicateModifier, type: .ContainsPredicateOperatorType, options: .CaseInsensitivePredicateOption)
     }
     

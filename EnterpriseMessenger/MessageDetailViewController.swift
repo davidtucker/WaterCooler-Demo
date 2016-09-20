@@ -18,7 +18,7 @@ class MessageDetailViewController : SLKTextViewController {
     private var isLoadingInitialData:Bool = false
     
     lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager
     }()
     
@@ -36,9 +36,9 @@ class MessageDetailViewController : SLKTextViewController {
     
     func updateMessages(messages:[Message]) {
         var threadMessages = messages
-        self.sortedMessages = sorted(messages, {
+        self.sortedMessages = Array(messages.sort({
             $0.getDateForSort().timeIntervalSinceNow < $1.getDateForSort().timeIntervalSinceNow
-        }).reverse()
+        }).reverse())
         
         updateSections()
         
@@ -81,7 +81,7 @@ class MessageDetailViewController : SLKTextViewController {
             return
         }
         if let info = notification.userInfo as? Dictionary<String,AnyObject> {
-            let message:Message = info[WaterCoolerConstants.Notifications.NewMessageReceivedUserInfoMessageKey] as Message
+            let message:Message = info[WaterCoolerConstants.Notifications.NewMessageReceivedUserInfoMessageKey] as! Message
             if(message.threadId == thread.entityId) {
                 addMessage(message)
             }
@@ -133,13 +133,13 @@ class MessageDetailViewController : SLKTextViewController {
         let section = sections[indexPath.section]
         let message = section.messages[indexPath.row]
         if(message.senderId == KCSUser.activeUser().userId) {
-            let cell = tableView.dequeueReusableCellWithIdentifier("SenderCell") as MessageTableViewSenderCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("SenderCell") as! MessageTableViewSenderCell
             cell.messageContent = message.messageText
             cell.transform = tableView.transform
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("RecipientCell") as MessageTableViewRecipientCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("RecipientCell") as! MessageTableViewRecipientCell
         cell.user = dataManager.fetchUserFromThread(thread)
         cell.messageContent = message.messageText
         cell.transform = tableView.transform
@@ -148,16 +148,16 @@ class MessageDetailViewController : SLKTextViewController {
     
     override func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         let firstMessage = sections[section].messages[0]
-        let header: UITableViewHeaderFooterView = view as UITableViewHeaderFooterView
-        header.textLabel.textColor = UIColor.lightGrayColor()
-        header.textLabel.text = InterfaceConfiguration.formattedDate(DateFormat.Long, date: firstMessage.getDateForSort())
-        header.textLabel.textAlignment = NSTextAlignment.Center
-        header.textLabel.font = InterfaceConfiguration.smallDetailFont
+        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        header.textLabel!.textColor = UIColor.lightGrayColor()
+        header.textLabel!.text = InterfaceConfiguration.formattedDate(DateFormat.Long, date: firstMessage.getDateForSort())
+        header.textLabel!.textAlignment = NSTextAlignment.Center
+        header.textLabel!.font = InterfaceConfiguration.smallDetailFont
         header.tintColor = UIColor.whiteColor()
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("Footer") as UITableViewHeaderFooterView
+        let h = tableView.dequeueReusableHeaderFooterViewWithIdentifier("Footer")! as UITableViewHeaderFooterView
         h.transform = tableView.transform
         return h
     }

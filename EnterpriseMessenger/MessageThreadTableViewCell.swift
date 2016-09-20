@@ -56,7 +56,7 @@ class MessageThreadTableViewCell : UITableViewCell {
     
     lazy var profileImage:MaskedImageView = {
         let image:MaskedImageView = MaskedImageView()
-        image.setTranslatesAutoresizingMaskIntoConstraints(false)
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -64,7 +64,7 @@ class MessageThreadTableViewCell : UITableViewCell {
         let label:UILabel = UILabel()
         label.font = InterfaceConfiguration.mainEmphasisFont
         label.textColor = UIColor.blackColor()
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -74,7 +74,7 @@ class MessageThreadTableViewCell : UITableViewCell {
         label.textColor = UIColor.blackColor()
         label.numberOfLines = 0
         label.setContentCompressionResistancePriority(800, forAxis: UILayoutConstraintAxis.Vertical)
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -83,14 +83,14 @@ class MessageThreadTableViewCell : UITableViewCell {
         label.font = InterfaceConfiguration.smallDetailFont
         label.textColor = UIColor.lightGrayColor()
         label.textAlignment = NSTextAlignment.Right
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     //MARK: - Data Manager
     
     lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager
     }()
     
@@ -101,7 +101,7 @@ class MessageThreadTableViewCell : UITableViewCell {
         setupSubviews()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupSubviews()
     }
@@ -137,7 +137,11 @@ class MessageThreadTableViewCell : UITableViewCell {
         var newConstraints:[NSLayoutConstraint] = []
         
         for format:String in constraintsFormats {
-            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(0), metrics: MessageThreadTableViewCell.viewMetrics, views: views) as [NSLayoutConstraint]
+            var viewMetrics = [String : AnyObject]()
+            for (key, value) in MessageThreadTableViewCell.viewMetrics {
+                viewMetrics[key as String] = value
+            }
+            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(rawValue: 0), metrics: viewMetrics, views: views) as [NSLayoutConstraint]
             newConstraints += formatConstraints
         }
         

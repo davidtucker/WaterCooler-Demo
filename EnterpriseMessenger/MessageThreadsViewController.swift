@@ -17,7 +17,7 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
     private var selectedThread:MessageThread! = nil
     
     private lazy var dataManager:KinveyDataManager = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager
     }()
     
@@ -40,8 +40,8 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
     }
     
     func addMessageThread(id:AnyObject) {
-        let modalUserSelector = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ModalUserSelector") as UINavigationController
-        let directory = modalUserSelector.topViewController as DirectoryTableViewController
+        let modalUserSelector = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ModalUserSelector") as! UINavigationController
+        let directory = modalUserSelector.topViewController as! DirectoryTableViewController
         directory.directoryMode = DirectoryMode.NewConversation
         directory.directoryDelegate = self
         presentViewController(modalUserSelector, animated: true, completion: nil)
@@ -97,7 +97,7 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:MessageThreadTableViewCell = tableView.dequeueReusableCellWithIdentifier("MessageThreadCell") as MessageThreadTableViewCell;
+        let cell:MessageThreadTableViewCell = tableView.dequeueReusableCellWithIdentifier("MessageThreadCell") as! MessageThreadTableViewCell;
        cell.thread = dataManager.sortedThreads[indexPath.row]
         return cell;
     }
@@ -117,7 +117,7 @@ class MessageThreadsViewController : UITableViewController, DirectoryTableViewCo
     //MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let destinationController = segue.destinationViewController as MessageDetailViewController
+        let destinationController = segue.destinationViewController as! MessageDetailViewController
         if(selectedThread != nil) {
             destinationController.thread = selectedThread
         }

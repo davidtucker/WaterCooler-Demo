@@ -15,14 +15,14 @@ class DirectoryTableViewCell : UITableViewCell {
     
     lazy var profileImage:MaskedImageView = {
         let image:MaskedImageView = MaskedImageView()
-        image.setTranslatesAutoresizingMaskIntoConstraints(false)
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     lazy var nameLabel:UILabel = {
         let label:UILabel = UILabel()
         label.font = InterfaceConfiguration.cellTitleFont
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -30,7 +30,7 @@ class DirectoryTableViewCell : UITableViewCell {
         let label:UILabel = UILabel()
         label.font = InterfaceConfiguration.cellSubtitleFont
         label.textColor = UIColor.lightGrayColor()
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -41,7 +41,7 @@ class DirectoryTableViewCell : UITableViewCell {
         setupSubviews()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupSubviews()
     }
@@ -83,7 +83,7 @@ class DirectoryTableViewCell : UITableViewCell {
         var newConstraints:[NSLayoutConstraint] = []
         
         for format:String in constraintsFormats {
-            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(0), metrics: metrics, views: views) as [NSLayoutConstraint]
+            let formatConstraints:[NSLayoutConstraint] = NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views) as [NSLayoutConstraint]
             newConstraints += formatConstraints
         }
         

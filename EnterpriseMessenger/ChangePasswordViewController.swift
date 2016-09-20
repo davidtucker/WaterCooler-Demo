@@ -51,7 +51,7 @@ class ChangePasswordViewController : UIViewController, UITextFieldDelegate {
     }
     
     private func arePasswordFieldsValid() -> Bool {
-        if(countElements(passwordField.text) < 1 || countElements(confirmField.text) < 1) {
+        if(passwordField.text?.characters.count < 1 || confirmField.text?.characters.count < 1) {
             return false
         }
         
