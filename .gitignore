@@ -3,3 +3,5 @@ EnterpriseMessenger.xcodeproj/xcuserdata/david.xcuserdatad
 Kinvey.plist
 EnterpriseMessenger.xccheckout
 Animations
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata

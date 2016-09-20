@@ -34,7 +34,7 @@ extension NSDate {
     */
     class func dateFromRFC3339DateString(value:String) -> NSDate? {
         let formatter = NSDateFormatter.rfc3339Formatter()
-        if var date = formatter.dateFromString(value) {
+        if let date = formatter.dateFromString(value) {
             return date
         }
         return nil

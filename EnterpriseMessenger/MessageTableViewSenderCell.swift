@@ -21,6 +21,10 @@ class MessageTableViewSenderCell : MessageTableViewCellBase {
         bubbleColor = InterfaceConfiguration.senderBubbleColor
         setupSubviews()
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     /*
         This method adds the subviews and sets up the auto-layot constraints.
@@ -39,8 +43,8 @@ class MessageTableViewSenderCell : MessageTableViewCellBase {
             "bottomMargin" : 20.0
         ]
         
-        let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(topMargin)-[textView]-(bottomMargin)-|", options: nil, metrics: metrics, views: views)
-        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(leftMargin)-[textView]-(rightMargin)-|", options: nil, metrics: metrics, views: views)
+        let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(topMargin)-[textView]-(bottomMargin)-|", options: [], metrics: metrics, views: views)
+        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(leftMargin)-[textView]-(rightMargin)-|", options: [], metrics: metrics, views: views)
         
         contentView.addConstraints(verticalConstraints)
         contentView.addConstraints(horizontalConstraints)

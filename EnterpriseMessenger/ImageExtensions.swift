@@ -20,7 +20,7 @@ extension UIImage {
     @param image The background image that will be masked.
     @param mask The mask image.
     @return The image masked by the mask image.*/
-    class func maskedImage(#image: UIImage, withMask mask: UIImage) -> UIImage {
+    class func maskedImage(image image: UIImage, withMask mask: UIImage) -> UIImage {
         //Get the alpha info
         let alphaInfo: CGImageAlphaInfo = CGImageGetAlphaInfo(mask.CGImage)
         
@@ -38,7 +38,7 @@ extension UIImage {
     @param color The color of the new image.
     @param mask The mask image.
     @return An icon of the given color masked by the mask image.*/
-    class func maskedImage(#color: UIColor, withMask mask: UIImage) -> UIImage {
+    class func maskedImage(color color: UIColor, withMask mask: UIImage) -> UIImage {
         //Get the alpha info
         let alphaInfo: CGImageAlphaInfo = CGImageGetAlphaInfo(mask.CGImage)
         
@@ -60,15 +60,15 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         //Create the mask
-        let context = CGBitmapContextCreate(nil, CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), 8, 0, nil, CGBitmapInfo(rawValue: CGImageAlphaInfo.Only.rawValue))
+        let context = CGBitmapContextCreate(nil, CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), 8, 0, nil, CGBitmapInfo(rawValue: CGImageAlphaInfo.Only.rawValue).rawValue)
         CGContextDrawImage(context, CGRectMake(0, 0, mask.size.width * mask.scale, mask.size.height * mask.scale), mask.CGImage)
-        let maskRef: CGImageRef = CGBitmapContextCreateImage(context)
+        let maskRef: CGImageRef! = CGBitmapContextCreateImage(context)
         
         //Mask the image
-        let masked: CGImageRef = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
+        let masked: CGImageRef! = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
         
         //Finished
-        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)!
+        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)
     }
     
     private class func maskedImage(image: UIImage, withNonAlphaMask mask: UIImage) -> UIImage {
@@ -79,13 +79,13 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         //Create the mask
-        let maskRef: CGImageRef = CGImageMaskCreate(CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), CGImageGetBitsPerComponent(mask.CGImage), CGImageGetBitsPerPixel(mask.CGImage), CGImageGetBytesPerRow(mask.CGImage), CGImageGetDataProvider(mask.CGImage), nil, false)
+        let maskRef: CGImageRef! = CGImageMaskCreate(CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), CGImageGetBitsPerComponent(mask.CGImage), CGImageGetBitsPerPixel(mask.CGImage), CGImageGetBytesPerRow(mask.CGImage), CGImageGetDataProvider(mask.CGImage), nil, false)
         
         //Mask the image
-        let masked: CGImageRef = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
+        let masked: CGImageRef! = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
         
         //Finished
-        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)!
+        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)
     }
     
     private class func maskedImage(color: UIColor, withAlphaMask mask: UIImage) -> UIImage {
@@ -97,15 +97,15 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         //Create the mask
-        let context = CGBitmapContextCreate(nil, CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), 8, 0, nil, CGBitmapInfo(rawValue: CGImageAlphaInfo.Only.rawValue))
+        let context = CGBitmapContextCreate(nil, CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), 8, 0, nil, CGBitmapInfo(rawValue: CGImageAlphaInfo.Only.rawValue).rawValue)
         CGContextDrawImage(context, CGRectMake(0, 0, mask.size.width * mask.scale, mask.size.height * mask.scale), mask.CGImage)
-        let maskRef: CGImageRef = CGBitmapContextCreateImage(context)
+        let maskRef: CGImageRef! = CGBitmapContextCreateImage(context)
         
         //Mask the image
-        let masked: CGImageRef = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
+        let masked: CGImageRef! = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
         
         //Finished
-        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)!
+        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)
     }
     
     private class func maskedImage(color: UIColor, withNonAlphaMask mask: UIImage) -> UIImage {
@@ -117,13 +117,13 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         //Create the mask
-        let maskRef: CGImageRef = CGImageMaskCreate(CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), CGImageGetBitsPerComponent(mask.CGImage), CGImageGetBitsPerPixel(mask.CGImage), CGImageGetBytesPerRow(mask.CGImage), CGImageGetDataProvider(mask.CGImage), nil, false)
+        let maskRef: CGImageRef! = CGImageMaskCreate(CGImageGetWidth(mask.CGImage), CGImageGetHeight(mask.CGImage), CGImageGetBitsPerComponent(mask.CGImage), CGImageGetBitsPerPixel(mask.CGImage), CGImageGetBytesPerRow(mask.CGImage), CGImageGetDataProvider(mask.CGImage), nil, false)
         
         //Mask the image
-        let masked: CGImageRef = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
+        let masked: CGImageRef! = CGImageCreateWithMask(iconBackground.CGImage, maskRef)
         
         //Finished
-        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)!
+        return UIImage(CGImage: masked, scale: mask.scale, orientation: mask.imageOrientation)
     }
     
     public func squareCroppedImage(length:CGFloat) -> UIImage {
@@ -157,7 +157,7 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(outputSize, true, 0);
         let ctx = UIGraphicsGetCurrentContext();
-        CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh);
+        CGContextSetInterpolationQuality(ctx, CGInterpolationQuality.High);
         
         self.drawInRect(outputRect);
         

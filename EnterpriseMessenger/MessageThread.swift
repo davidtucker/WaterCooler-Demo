@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MessageThread : NSObject, KCSPersistable {
+class MessageThread : NSObject {
     
     var entityId:String = ""
     var lastMessage:Message! = nil
@@ -18,10 +18,10 @@ class MessageThread : NSObject, KCSPersistable {
         let userAIdentifier:String = KCSUser.activeUser().userId
         let userBIdentifier:String = user.userId
         let identifiers:[String] = [ userAIdentifier, userBIdentifier ]
-        let sortedIdentifiers = identifiers.sorted {
+        let sortedIdentifiers = identifiers.sort {
             $0.localizedCaseInsensitiveCompare($1) == NSComparisonResult.OrderedAscending
         }
-        return ":".join(sortedIdentifiers)
+        return sortedIdentifiers.joinWithSeparator(":")
     }
     
     override init() {}

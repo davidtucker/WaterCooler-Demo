@@ -21,7 +21,7 @@ extension KCSUser {
         happens, you can call populateProfileImage to populate the cache.
     */
     func getProfileImage() -> UIImage? {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.dataManager.imageCache[self.userId]
     }
     
@@ -31,15 +31,15 @@ extension KCSUser {
         using the getProfileImage method.
     */
     func populateProfileImage(completion:(UIImage?) -> ()) {
-        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
+        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as! String!
         if(pictureId == nil) {
             completion(nil)
         }
         var options = [ KCSFileOnlyIfNewer : true ]
         KCSFileStore.downloadFile(pictureId, options: options, completionBlock: { (result, error) -> Void in
             if(error == nil) {
-                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-                let file:KCSFile = result[0] as KCSFile
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let file:KCSFile = result[0] as! KCSFile
                 let image:UIImage = UIImage(contentsOfFile: file.localURL.path!)!
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     appDelegate.dataManager.imageCache[self.userId] = image
@@ -54,7 +54,7 @@ extension KCSUser {
         in their user profile or not.
     */
     func hasProfileImage() -> Bool {
-        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
+        let pictureId = self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as! String!
         if  pictureId != nil && !pictureId.isEmpty {
             return true
         }
@@ -68,7 +68,7 @@ extension KCSUser {
     */
     var profilePictureId:String? {
         get {
-            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as String!
+            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.ProfilePicIdField) as! String!
         }
         
         set {
@@ -87,7 +87,7 @@ extension KCSUser {
     */
     var title:String {
         get {
-            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.UserTitleField) as String!
+            return self.getValueForAttribute(WaterCoolerConstants.Kinvey.UserTitleField) as! String!
         }
         
         set {

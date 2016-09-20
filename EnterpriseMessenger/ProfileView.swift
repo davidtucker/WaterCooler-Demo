@@ -367,7 +367,7 @@ class ProfileView : UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         field is a valid value.  In this case, it needs to not be empty.
     */
     private func isTextFieldValid(field:UITextField) -> Bool {
-        return countElements(field.text) > 0;
+        return field.text?.characters.count > 0;
     }
     
 }

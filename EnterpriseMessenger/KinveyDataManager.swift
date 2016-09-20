@@ -49,7 +49,7 @@ class KinveyDataManager {
     private var users:[KCSUser]! = nil {
         didSet {
             // Order by First Name & Exclude Current User from List
-            sortedUsers = sorted(users, { $0.givenName < $1.givenName }).filter({ $0.userId != KCSUser.activeUser().userId })
+            sortedUsers = users.sort({ $0.givenName < $1.givenName }).filter({ $0.userId != KCSUser.activeUser().userId })
         }
     }
     
@@ -112,7 +112,7 @@ class KinveyDataManager {
     //MARK: Private Fetching Methods
     
     private func sortThreads() -> [MessageThread] {
-        return sorted(threads, { $0.getIntervalForSort() > $1.getIntervalForSort() })
+        return threads.sort({ $0.getIntervalForSort() > $1.getIntervalForSort() })
     }
     
     func fetchMessageThreads() {
@@ -124,10 +124,10 @@ class KinveyDataManager {
     func fetchMessageThreads(completion: ([MessageThread]!, NSError!) -> ()) {
         threadStore.queryWithQuery(KCSQuery(), withCompletionBlock: { (results, error) -> Void in
             if(error != nil) {
-                println("ERROR FETCHING THREADS")
+                print("ERROR FETCHING THREADS")
                 completion(nil, error)
             } else {
-                self.threads = results as [MessageThread]
+                self.threads = results as! [MessageThread]
                 completion(self.threads, error)
             }
         }, withProgressBlock: nil, cachePolicy: KCSCachePolicyNone)
@@ -142,8 +142,8 @@ class KinveyDataManager {
     func fetchUsers(completion: ([KCSUser]!, NSError!) -> ()) {
         userStore.queryWithQuery(KCSQuery(), withCompletionBlock: { (results, error) -> Void in
             if(error == nil) {
-                self.users = results as [KCSUser]
-                completion(results as [KCSUser]!, nil)
+                self.users = results as! [KCSUser]
+                completion(results as! [KCSUser]!, nil)
             } else {
                 completion(nil, error)
             }
@@ -163,19 +163,19 @@ class KinveyDataManager {
         }, withProgressBlock: nil)
         */
         messagesStore.saveObject(message, withCompletionBlock: { (results, error) -> Void in
-            completion(savedMessage: results[0] as Message)
+            completion(savedMessage: results[0] as! Message)
         }, withProgressBlock: nil)
     }
     
     func messagesForThread(thread:MessageThread, completeion:([Message]) -> ()) {
         let query = KCSQuery(onField: "threadId", withExactMatchForValue: thread.entityId)
         messagesStore.queryWithQuery(query, withCompletionBlock: { (results, error) -> Void in
-            completeion(results as [Message])
+            completeion(results as! [Message])
         }, withProgressBlock: nil)
     }
     
     func getThreadForEntityId(entityId:String) -> MessageThread! {
-        return filter(sortedThreads, { $0.entityId == entityId }).first
+        return sortedThreads.filter({ $0.entityId == entityId }).first
     }
     
     func getThreadForUser(user:KCSUser, completion:(MessageThread) -> ()) {
@@ -184,7 +184,7 @@ class KinveyDataManager {
         if let thread = getThreadForEntityId(threadIdentifier) {
             completion(thread)
         } else {
-            newThreadForUser(user, { (result) -> () in
+            newThreadForUser(user, completion: { (result) -> () in
                 completion(result)
             })
         }
@@ -201,7 +201,7 @@ class KinveyDataManager {
     
     func fetchUserFromThread(thread:MessageThread) -> KCSUser! {
         let userIdToFetch = fetchUserIdFromThread(thread)
-        return filter(users, { $0.userId == userIdToFetch }).first
+        return users.filter({ $0.userId == userIdToFetch }).first
     }
     
     func fetchUserIdFromThread(thread:MessageThread) -> String {

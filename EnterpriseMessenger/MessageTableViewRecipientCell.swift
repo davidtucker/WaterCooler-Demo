@@ -25,7 +25,7 @@ class MessageTableViewRecipientCell : MessageTableViewCellBase {
     lazy var profilePicView:MaskedImageView = {
         let profilePicView = MaskedImageView()
         profilePicView.backgroundColor = UIColor.lightGrayColor()
-        profilePicView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        profilePicView.translatesAutoresizingMaskIntoConstraints = false
         return profilePicView
     }()
     
@@ -35,6 +35,10 @@ class MessageTableViewRecipientCell : MessageTableViewCellBase {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         bubbleColor = InterfaceConfiguration.recipientBubbleColor
         setupSubviews()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     /*
@@ -57,9 +61,9 @@ class MessageTableViewRecipientCell : MessageTableViewCellBase {
             "profilePicWidth" : profilePicSize.width
         ]
         
-        let picVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(2)-[profilePic(==profilePicWidth)]", options: nil, metrics: metrics, views: views)
-        let textVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(topMargin)-[textView]-(bottomMargin)-|", options: nil, metrics: metrics, views: views)
-        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(leftMargin)-[profilePic(==profilePicWidth)]-(30)-[textView]-(rightMargin)-|", options: nil, metrics: metrics, views: views)
+        let picVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(2)-[profilePic(==profilePicWidth)]", options: [], metrics: metrics, views: views)
+        let textVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(topMargin)-[textView]-(bottomMargin)-|", options: [], metrics: metrics, views: views)
+        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(leftMargin)-[profilePic(==profilePicWidth)]-(30)-[textView]-(rightMargin)-|", options: [], metrics: metrics, views: views)
         
         contentView.addConstraints(picVerticalConstraints)
         contentView.addConstraints(textVerticalConstraints)

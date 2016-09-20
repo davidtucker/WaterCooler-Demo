@@ -33,7 +33,6 @@
 		63203DC21A6DB08F00D49582 /* MaskedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DC11A6DB08F00D49582 /* MaskedImageView.swift */; };
 		6333F3311A92D8F100618027 /* about.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6333F3301A92D8F100618027 /* about.rtf */; };
 		6333F3331A93BB4600618027 /* AboutTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333F3321A93BB4600618027 /* AboutTextView.swift */; };
-		6333F3351A95348800618027 /* Kinvey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6333F3341A95348800618027 /* Kinvey.plist */; };
 		634117201A82D8BA004090F1 /* KinveyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6341171F1A82D8BA004090F1 /* KinveyDataManager.swift */; };
 		634AC2391A97EA5A00A6DAE8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC2381A97EA5A00A6DAE8 /* ProfileViewController.swift */; };
 		634AC23B1A9BB33500A6DAE8 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634AC23A1A9BB33500A6DAE8 /* DateExtensions.swift */; };
@@ -110,7 +109,6 @@
 		63203DC11A6DB08F00D49582 /* MaskedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskedImageView.swift; sourceTree = "<group>"; };
 		6333F3301A92D8F100618027 /* about.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = about.rtf; path = EnterpriseMessenger/Content/about.rtf; sourceTree = "<group>"; };
 		6333F3321A93BB4600618027 /* AboutTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTextView.swift; sourceTree = "<group>"; };
-		6333F3341A95348800618027 /* Kinvey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Kinvey.plist; path = EnterpriseMessenger/Kinvey.plist; sourceTree = "<group>"; };
 		6341171F1A82D8BA004090F1 /* KinveyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KinveyDataManager.swift; sourceTree = "<group>"; };
 		634AC2381A97EA5A00A6DAE8 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		634AC23A1A9BB33500A6DAE8 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 		63203D6E1A6D4C3B00D49582 = {
 			isa = PBXGroup;
 			children = (
-				6333F3341A95348800618027 /* Kinvey.plist */,
 				6333F32F1A92D8E400618027 /* Content */,
 				6359CFF61A72F1A60040E166 /* Third Party */,
 				63203D791A6D4C3C00D49582 /* EnterpriseMessenger */,
@@ -503,6 +500,8 @@
 		63203D6F1A6D4C3B00D49582 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0730;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Universal Mind";
 				TargetAttributes = {
@@ -543,7 +542,6 @@
 				63203D871A6D4C3C00D49582 /* LaunchScreen.xib in Resources */,
 				634AC2491AA26D7E00A6DAE8 /* ProfileView.xib in Resources */,
 				6333F3311A92D8F100618027 /* about.rtf in Resources */,
-				6333F3351A95348800618027 /* Kinvey.plist in Resources */,
 				63203D841A6D4C3C00D49582 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

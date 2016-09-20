@@ -11,7 +11,7 @@ import UIKit
 
 class BottomButton : UIButton {
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder);
         self.layer.borderColor = UIColor.whiteColor().CGColor;
     }

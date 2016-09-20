@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Message : NSObject, KCSPersistable {
+class Message : NSObject {
     
     var entityId:String = ""
     var messageText:String!
@@ -36,12 +36,12 @@ class Message : NSObject, KCSPersistable {
     */
     convenience init(userInfo:[NSObject : AnyObject]) {
         self.init()
-        senderId = userInfo[WaterCoolerConstants.PushNotifications.SenderId] as String
-        messageText = userInfo[WaterCoolerConstants.PushNotifications.MessageText] as String
-        threadId = userInfo[WaterCoolerConstants.PushNotifications.ThreadId] as String
-        let creationTime = userInfo[WaterCoolerConstants.PushNotifications.CreationDate] as String
+        senderId = userInfo[WaterCoolerConstants.PushNotifications.SenderId] as! String
+        messageText = userInfo[WaterCoolerConstants.PushNotifications.MessageText] as! String
+        threadId = userInfo[WaterCoolerConstants.PushNotifications.ThreadId] as! String
+        let creationTime = userInfo[WaterCoolerConstants.PushNotifications.CreationDate] as! String
         userEntryTime = NSDate.dateFromRFC3339DateString(creationTime)
-        entityId = userInfo[WaterCoolerConstants.PushNotifications.EntityId]! as String
+        entityId = userInfo[WaterCoolerConstants.PushNotifications.EntityId]! as! String
     }
     
     
